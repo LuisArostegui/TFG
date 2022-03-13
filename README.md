@@ -14,7 +14,7 @@ En el contexto de IoT, hay un ecosistema de entornos de desarrollo específicos.
 
 ## Documentación
 
-La documentación de este proyecto está realizada con `Latex`, para la generación del archivo PDF necesitaremos tener intalado `TeXLive`.
+La documentación de este proyecto está realizada con `Latex`, para la generación del archivo PDF necesitaremos tener instalado `TeXLive`. 
 
 Una vez instalado, nos situaremos sobre el directorio `doc` y ejecutaremos:
 
