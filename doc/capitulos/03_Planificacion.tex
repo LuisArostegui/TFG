@@ -15,21 +15,35 @@ Se trata de planificar como se espera desarrollar el proyecto en el tiempo, para
 
 \subsection{Diagrama de Gantt}
 
-De los 3 meses y medios a que se van a dedicar al proyecto, en todos ellos se va a desarrollar las etapas indicadas anteriormente. Se muestra tanto la fecha de inicio como de fin y la duración (en dias) de cada etapa.
+De los 3 meses y medios a que se van a dedicar al proyecto, en todos ellos se va a desarrollar las etapas indicadas anteriormente. Se muestra la fecha de inicio y de fin de cada etapa.
 
-\begin{figure}[p]
-    \centering
-    \includegraphics[width=\textwidth]{imagenes/gantt-1.png}
-    \caption{Fechas y duración de cada etapa del diagrama de Gantt}
-    \label{fig:figure1}
-\end{figure}
+\renewcommand{\arraystretch}{1.5}\label{time-section}
+\begin{table}[H]
+	\centering
+	\label{tabla-temporal}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{@{}ccc@{}}
+		\toprule
+		\rowcolor[HTML]{ECF4FF} 
+		\textbf{Etapas del desarrollo}                                                                                                                  & \textbf{Fecha de comienzo} & \textbf{Fecha de finalización} \\ \midrule
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Documentación del proyecto\end{tabular}} & 9 de Marzo                & 23 de Junio                     \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{ECF4FF}\textbf{Revisar entornos de desaroollo IoT}                                                                                & 21 de Marzo                 & 30 de Marzo                    \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Desarrollar aplicación para IoT\end{tabular}}         & 31 de Marzo                & 5 de Mayo                    \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{ECF4FF}\textbf{Explotar vulnerabilidad}                                                                                   & 6 de Mayo                & 15 de Junio                     \\ \bottomrule
+	\end{tabular}}
+	\caption{Tabla con la organización temporal del proyecto.}
+\end{table}
 
-\begin{figure}[p]
+\begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{imagenes/gantt-2.png}
+    \includegraphics[width=\linewidth]{imagenes/digrama-gantt.png}
     \caption{Diagrama de Gantt. Gráfico.}
     \label{fig:figure2}
 \end{figure}
+
+Este gráfico corresponde con la duración de cada etapa, comenzando con la documentación. También se indica que hay etapas que para que estas se puedan empezar a desarrollar necesitan que la anterior este terminada, es el caso de la etapa de \textit{Desarrollo de la aplicación} y de \textit{Explotación de una vulnerabilidad}.
 
 % Cada etapa se divide en una serie de tareas independientes que se deben de cumplir para poder completar una etapa.
 
