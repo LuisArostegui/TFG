@@ -2,7 +2,21 @@
 
 \section{Planificación a priori}
 
-Se trata de planificar como se espera desarrollar el proyecto en el tiempo, para ello se va a hacer uso de un diagrama de Gantt donde se va a proporcionar una vista general de las tareas programadas, estas tareas tendrán que completarse en unas fechas estipuladas. Para poder realizar el digrama se tienen que indicar las etapas de desarrollo del proyecto.
+Se trata de planificar como se espera desarrollar el proyecto en el tiempo, para ello se va a hacer uso de un diagrama de Gantt donde se va a proporcionar una vista general de las tareas programadas, estas tareas tendrán que completarse en unas fechas estipuladas.
+
+\subsection{Diagrama de Gantt}
+
+Un diagrama de Gantt es una herramienta útil para planificar proyectos. Proporciona una vista general de las tareas programadas, indicando el periodo de tiempo que tienen para completarse.\\
+
+El diagrama se mostrará:
+\begin{itemize}
+    \item Fecha de inicio y finalización del proyecto.
+    \item Las tareas del proyecto.
+    \item Fecha de programada de cada tarea, tanto la de inicio como la de final.
+    \item Como se superponen las tareas y si hay relación entre ellas.
+\end{itemize}
+
+Con esta planificación se conseguirá una mayor claridad en las tareas a realizar y una mejor gestión del tiempo.
 
 \subsection{Etapas de desarrollo}
 
@@ -13,7 +27,7 @@ Se trata de planificar como se espera desarrollar el proyecto en el tiempo, para
     \item \textbf{4ª etapa}: Documentación.
 \end{itemize}
 
-\subsection{Diagrama de Gantt}
+\subsection{Temporización}
 
 De los 3 meses y medios a que se van a dedicar al proyecto, en todos ellos se va a desarrollar las etapas indicadas anteriormente. Se muestra la fecha de inicio y de fin de cada etapa.
 
@@ -28,22 +42,53 @@ De los 3 meses y medios a que se van a dedicar al proyecto, en todos ellos se va
 		\textbf{Etapas del desarrollo}                                                                                                                  & \textbf{Fecha de comienzo} & \textbf{Fecha de finalización} \\ \midrule
 		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Documentación del proyecto\end{tabular}} & 9 de Marzo                & 23 de Junio                     \\
 		\rowcolor[HTML]{EFEFEF} 
-		\cellcolor[HTML]{ECF4FF}\textbf{Revisar entornos de desaroollo IoT}                                                                                & 21 de Marzo                 & 30 de Marzo                    \\
-		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Desarrollar aplicación para IoT\end{tabular}}         & 31 de Marzo                & 5 de Mayo                    \\
+		\cellcolor[HTML]{ECF4FF}\textbf{Revisar entornos de desaroollo IoT}                                                                                & 21 de Marzo                 & 6 de Abril                    \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Desarrollar aplicación para IoT\end{tabular}}         & 7 de Abril                & 12 de Mayo                    \\
 		\rowcolor[HTML]{EFEFEF} 
-		\cellcolor[HTML]{ECF4FF}\textbf{Explotar vulnerabilidad}                                                                                   & 6 de Mayo                & 15 de Junio                     \\ \bottomrule
+		\cellcolor[HTML]{ECF4FF}\textbf{Explotar vulnerabilidad}                                                                                   & 13 de Mayo                & 22 de Junio                     \\ \bottomrule
 	\end{tabular}}
 	\caption{Tabla con la organización temporal del proyecto.}
 \end{table}
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\linewidth]{imagenes/digrama-gantt.png}
+    \includegraphics[width=\linewidth]{imagenes/diagramaGantt_v2.png}
     \caption{Diagrama de Gantt. Gráfico.}
     \label{fig:figure2}
 \end{figure}
 
 Este gráfico corresponde con la duración de cada etapa, comenzando con la documentación. También se indica que hay etapas que para que estas se puedan empezar a desarrollar necesitan que la anterior este terminada, es el caso de la etapa de \textit{Desarrollo de la aplicación} y de \textit{Explotación de una vulnerabilidad}.
+
+\subsection{Seguimiento del desarrollo}
+
+Con el fin de facilitar la visualización del progreso del proyecto se usan distintas herramientas.
+
+\subsubsection{Trello}
+
+Permite gestionar proyectos de forma sencilla y muy visual. Por cada proyecto se crea un tablero donde podemos crear listas y cada lista almacenará \textit{tarjetas} donde se describirá una tarea u objetivo a cumplir. En nuestro caso el tablero se divide en 7 listas:
+
+\begin{itemize}
+    \item \textbf{Dudas}, se dejan ancladas preguntas a los tutores.
+    \item \textbf{Objetivos}, para recordar los objetivos que se tienen que completar para el proyecto.
+    \item \textbf{Pendientes}, tareas que se tienen que realizar pero no se están desarrollando.
+    \item \textbf{En proceso}, tareas que se están trabajando.
+    \item \textbf{Pendientes de revisión}, tareas finalizadas que requieren de revisión por parte de los tutores.
+    \item \textbf{Terminadas}, tareas que han sido aceptadas en la revisión.
+    \item \textbf{Hitos}, se agrupan tareas que forman parte de una misma etapa.
+\end{itemize}
+
+\subsubsection{Github}
+
+Se ha creado un repositorio \footnote{Enlace al repositorio: https://github.com/LuisArostegui/TFG} donde se van añadiendo \textit{issues} por cada tarea que se tenga que realizar. Esta tarea es la misma que nos encontramos en el tablero de Trello, por tanto, cuando se crea una nueva tarea en Trello, creamos un nuevo issue con el mismo nombre y descripción para seguir un progreso coherente.\\
+
+También se crean \textit{Milestones} que se corresponde con el nombre y descripción de la lista de \textit{Hitos} del tablero de Trello.\\
+
+Cada vez que terminemos de trabajar en un \textit{Milestone} se creará un \textit{Pull Request} para que los tutores puedan revisar los cambios del proyecto y aceptarlos o rechazarlos. Cada acción que se realice tanto en Trello como en Github se verá reflejado en ambos, de esta manera conseguimos un desarrollo del proyecto realista de principio a final.
+
+\subsubsection{Clockify}
+
+Esta herramienta nos permite seguir el tiempo que estamos trabajando. Cada vez que nos pongamos a trabajar, iniciaremos el contador y nombraremos a ese contador con el nombre de la tarea que estemos realizando en ese momento.
+
 
 % Cada etapa se divide en una serie de tareas independientes que se deben de cumplir para poder completar una etapa.
 
