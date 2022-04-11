@@ -31,28 +31,48 @@ La arquitectura de tres capas es básica para el IoT y se ha diseñado y realiza
 
 \subsubsection{Arquitectura basada en SoA}
 
-\cite{lin2017survey}
+En general, SoA (Arquitectura Orientada a Servicios) es un modelo basado en componentes, que puede ser diseñado para conectar diferentes unidades funcionales, también conocidas como servicios, de una aplicación a través de interfaces y protocolos. SoA puede centrarse en el diseño del flujo de trabajo de los servicios coordinados, y permitir la reutilización de los componentes de software y hardware, mejorando la viabilidad de SoA para su uso en el diseño de la arquitectura IoT. Así, SoA puede integrarse fácilmente en la arquitectura de IoT, en la que servicios de datos proporcionados por la capa de red y la capa de aplicación en la arquitectura tradicional de tres capas pueden ser de la arquitectura tradicional de tres capas pueden extraerse y formar una nueva capa, la capa de servicios, también conocida como capa de interfaz o capa de middleware. Así, en una arquitectura arquitectura de IoT basada en SoA, existen cuatro capas que interactúan entre sí, siendo éstas la capa de percepción, la capa de red red, la capa de servicio y la capa de aplicación. \\
 
-\begin{figure}[ht!]
+En la arquitectura de IoT basada en cuatro capas, la capa de percepción desempeña la función de la capa inferior de la arquitectura, y se utiliza para medir, recoger y extraer los datos asociados a los dispositivos físicos. La capa de red se utiliza para determinar las rutas y proporcionar soporte de transmisión de datos a través de redes heterogéneas integradas. La capa de servicio se sitúa entre la capa de red y la capa de aplicación, proporcionando servicios para apoyar la capa de aplicación. La capa de servicio consiste en el descubrimiento de servicios, la composición de servicios, la gestión de servicios y las interfaces de servicios. Aquí, el descubrimiento de servicios se utiliza para descubrir las solicitudes de servicio deseadas, la composición de servicios se utiliza para interactuar con los objetos conectados, y dividir o integrar los servicios para satisfacer las solicitudes de servicio de una manera eficiente, la gestión de servicios se utiliza para gestionar y determinar los mecanismos de confianza para satisfacer las solicitudes de servicio, y las interfaces de servicio se utilizan para soportar las interacciones entre todos los servicios proporcionados. La capa de aplicación se utiliza para dar soporte a las solicitudes de servicio de los usuarios. La capa de aplicación puede soportar una serie de aplicaciones, como la red inteligente, el transporte inteligente, las ciudades inteligentes, etc. \cite{lin2017survey}
+
+\begin{figure}[hb!]
     \centering
     \includegraphics[width=\linewidth]{imagenes/arch-3-layer.png}
-    \caption{Arquitectura de 3 capas}
+    \caption{Arquitectura de 3 capas. \cite{fig-3-layer-arch}}
     \label{fig:figure1}
 \end{figure}
 
-\newpage
-
-
-\subsection{Protocolos}
-
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/SOA-based-architecture-for-IoT-middleware-1.jpg}
+    \caption{Arquitectura de 4 capas. \cite{fig-4-layer-arch}}
+    \label{fig:figure2}
+\end{figure}
 
 
 \subsection{Tecnologías asociadas}
 
+Teniendo en cuenta las arquitecturas mencionadas anteriormente, el IoT cuenta con varias tecnologías que hacen posible la cumplir el objetivo de cada capa de la arquitectura. A continuación se comentan sobre las tecnologías que nos encontramos en la Arquitectura basada en SoA. \cite{lin2017survey}
+
+\subsubsection{Capa de percepción}
+
+En la capa de percepción, la función principal es identificar y rastrear objetos. Para lograr esta función, se pueden implementar las siguientes tecnologías pueden ser implementadas.
+
+\begin{itemize}
+    \item \textbf{Radio frequency identification (RFID)}. El sistema RFID se compone de uno o varios lectores y varias etiquetas RFID. Utiliza campos electromagnéticos de radiofrecuencia para enviar los datos adjuntos. Las etiquetas que se adjuntan a ella, almacenan datos electrónicamente que pueden ser leídos por RFID cuando se encuentra en la proximidad del lector.
+    \item \textbf{Redes de sensores inalámbricos (WSN)}
+\end{itemize}
+
+\cite{8320780}
+
+\subsection{Protocolos}
+
+\cite{8913969}
+
 
 \subsection{Retos}
 
-
+\section{Arquitecturas middleware IoT}
 
 \section{Seguridad}
 
