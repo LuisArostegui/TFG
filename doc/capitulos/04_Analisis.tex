@@ -1,1 +1,59 @@
 \chapter{Análisis del problema}
+{\color{blue}
+
+%Añadir introduccion a seleccionar un framework de desarrollo de iot
+
+Siguiendo los objetivos del proyecto \ref{sec:objetivos} se va a analizar los diferentes frameworks que existen para desarrollar una aplicación para posteriormente analizar posibles explotaciones de seguridad. \\
+
+Los entornos de desarollo de IoT sirven para .... y es necesario especificar los requisitos para seleccionar un entorno y poder montar nuestra aplicacion.
+
+
+\ref{sec:middleware}
+
+Basandonos en las características descritas anteriormente \ref{sec:iot} de la infraestructura del IoT y de las aplicaciones que dependen de ella, se establecen un conjunto de requisitos para que un middleware soporte el IoT. A continuación, estos requisitos se agrupan en dos conjuntos: los servicios que debe proporcionar dicho middleware y la arquitectura del sistema \cite{7322178}-\cite{7582463}.
+
+\subsection{Requisitos del servicio de middleware}
+
+ Los requisitos de los servicios de middleware para el IoT pueden clasificarse en funcionales y no funcionales. Los requisitos funcionales recogen los servicios o funciones, como por ejemplo abstracciones y gestión de recursos un middleware, y los requisitos no funcionales, por ejemplo fiabilidad, seguridad y disponibilidad, captan el soporte de la calidad de servicio o del rendimiento.\\
+ 
+ En los requisitos funcionales nos encontramos:
+ 
+ \begin{itemize}
+     \item \textbf{Descubrimiento de recursos}. Ya que la infraestructura y el entorno del IoT son dinámicos, las suposiciones relacionadas con el conocimiento global y determinista de la disponibilidad de estos recursos es inviable. Pasa lo mismo con la intervención humana, es inviable que este descubra recursos. Por tanto, es importante destacar que el descubrimiento de recursos este automatizado. Cuando no hay infraestructura, el propio dispositivo debe de anunciar su presencia y los recursos que ofrece.
+     \item \textbf{Gestión de recursos}. Se espera una QoS (Quality of Service) aceptable para todas las aplicaciones, y en un entorno en el que los recursos que influyen en la QoS son limitados, como el IoT, es importante que las aplicaciones cuenten con un servicio que gestione esos recursos.
+     \item \textbf{Gestión de datos}. Los datos son fundamentales en las aplicaciones de IoT. En el IoT, los datos se refieren principalmente a los datos detectados o a cualquier información de infraestructura de red de interés para las aplicaciones.
+     \item \textbf{Gestión de eventos}. En las aplicaciones de IoT se genera potencialmente un número masivo de eventos, que deberían gestionarse como parte integral de un middleware de IoT.
+     \item \textbf{Gestión del código}. El despliegue de código en un entorno de IoT es un reto, y debe ser soportado directamente por el middleware. En particular, se necesitan servicios de asignación y de código.
+ \end{itemize}
+ 
+ En los requisitos no funcionales nos encontramos:
+ 
+  \begin{itemize}
+     \item \textbf{Escalabilidad}. Un middleware de IoT debe ser escalable para adaptarse al crecimiento de la red y las aplicaciones/servicios de IoT.
+     \item \textbf{Actuación en tiempo real}. Un middleware debe proporcionar servicios en tiempo real cuando la corrección de una operación que soporta depende no sólo de su corrección lógica sino sino también del tiempo en que se realiza.
+     \item \textbf{Fiabilidad}. Un middleware debe permanecer operativo durante la duración de una misión, incluso en presencia de fallos.
+     \item \textbf{Disponibilidad}. Un middleware que soporte las aplicaciones de un IoT, especialmente las de misión crítica, debe estar disponible en todo momento.
+     \item \textbf{Seguridad y privacidad}. La seguridad es fundamental para el funcionamiento de IoT. En el middleware de IoT, la seguridad debe tenerse en cuenta en todos los bloques funcionales y no funcionales, incluyendo la aplicación a nivel de usuario.
+     \item \textbf{Facilidad de despliegue}. Hay que evitar los procedimientos complicados de instalación y configuración.
+     \item \textbf{Popularidad}. Un middleware de IoT, como cualquier otra solución de software, debe recibir un apoyo y una ampliación continua.
+ \end{itemize}
+ 
+\subsection{Requisitos de arquitectura en el middleware}
+
+En esta sección se muestran los requisitos para las abstracciones de programación y otros aspectos relacionados con la implementación.
+
+\begin{itemize}
+    \item \textbf{Abstracción de la programación}. Para el desarrollador de aplicaciones o servicios, las interfaces de programación de alto nivel deben aislar el desarrollo de las aplicaciones o los servicios de las operaciones proporcionadas por las infraestructuras subyacentes y heterogéneas del IoT. 
+    \item \textbf{Interoperabilidad}. Un middleware debe funcionar con dispositivos, tecnologías y aplicaciones heterogéneas, sin esfuerzo adicional por parte del desarrollador de aplicaciones o servicios.
+    \item \textbf{Basado en el servicio}. Una arquitectura de middleware debe estar basada en servicios para ofrecer una gran flexibilidad cuando sea necesario añadir funciones nuevas y avanzadas al middleware de un IoT.
+    \item \textbf{Adaptable}. Un middleware debe ser adaptativo para poder evolucionar y adaptarse a los cambios de su entorno.
+    \item \textbf{Consciente del contexto}. El conocimiento del contexto es un requisito clave en la construcción de sistemas adaptativos y también en el establecimiento de valor de los datos recogidos.
+    \item \textbf{Autónomo}. Los dispositivos, tecnologías y aplicaciones son participantes activos en los procesos del IoT y deben estar habilitados para interactuar y comunicarse entre sí sin la intervención intervención humana.
+    \item \textbf{Distribuido}.  Las aplicaciones de un sistema IoT a gran escala de un sistema IoT intercambian información y colaboran entre sí.
+\end{itemize}
+
+
+
+
+
+}
