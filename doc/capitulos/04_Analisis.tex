@@ -5,12 +5,30 @@
 
 Siguiendo los objetivos del proyecto \ref{sec:objetivos} se va a analizar los diferentes frameworks que existen para desarrollar una aplicación para posteriormente analizar posibles explotaciones de seguridad. \\
 
-Los entornos de desarollo de IoT sirven para .... y es necesario especificar los requisitos para seleccionar un entorno y poder montar nuestra aplicacion.
+Como hemos visto en \ref{sec:iot}, normalmente, cuando se generan grandes datos y se transmiten a través de varios dispositivos, tiene que haber un punto específico en el que se recoja y combine todo. Este punto específico es muy esencial en una red, ya que combina todos los datos, lo que permite comprender los datos que se generan. Sin embargo, la transmisión y generación de datos sin problemas no se produce sin más. Más bien, suele ser posible gracias a un framework del Internet de las Cosas. \\
 
+Un framework para IoT puede describirse como un ecosistema, compuesto por varios dispositivos conectados que se comunican entre sí, a través de Internet. Estos dispositivos conectados suelen funcionar para transferir y detectar datos a través de Internet, y requieren muy poca intervención humana. El framework de IoT es lo que hace posible que los dispositivos conectados tengan una comunicación fluida a través de Internet. Es un elemento tecnológico muy importante en el mundo moderno, que encuentra aplicación en casi todos los sectores. Por ejemplo, una de las principales aplicaciones del IoT es el diseño de casas inteligentes. \cite{iot-framework}\\
 
-\ref{sec:middleware}
+Es decir, un framework para IoT recoge todos principales elementos que componen el mundo del Internet de las Cosas para desarrollar una aplicación, estos elementos los podemos ver en la siguiente imagen \ref{fig:figure4}.
 
-Basandonos en las características descritas anteriormente \ref{sec:iot} de la infraestructura del IoT y de las aplicaciones que dependen de ella, se establecen un conjunto de requisitos para que un middleware soporte el IoT. A continuación, estos requisitos se agrupan en dos conjuntos: los servicios que debe proporcionar dicho middleware y la arquitectura del sistema \cite{7322178}-\cite{7582463}.
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/Key-IoT-Components.jpg}
+    \caption{Elementos principales de un framework en IoT. \cite{key-iot-framework}}
+    \label{fig:figure4}
+\end{figure}
+
+\newpage
+
+Cuando se esta desarrollando una aplicación, el concepto de ``framework`` se puede relacionar con otros conceptos como el de ``middleware`` y ``plataforma``. El concepto de ``plataforma`` hace referencia al lugar donde se permite desplegar y ejecutar la aplicación. Por otro lado el middleware, tiene que ver con la prestación de los servicios. Y por último, el framework se centra más en el diseño del software. Por esto, pese a que en este proyecto se va a trabajar con un framework, hay que tener en cuenta otros conceptos que rodean al desarrollo de una aplicación. \cite{nakhuva2015study}
+
+\section{Middleware} \label{sec:middleware}
+
+Generalmente, un middleware abstrae las complejidades del sistema o del hardware, permitiendo al desarrollador de la aplicación centrar todo su esfuerzo en la tarea a resolver, sin la distracción de preocupaciones a nivel del sistema o del hardware. Dichas complejidades pueden estar relacionadas con problemas de comunicación o de computación más generales. Un middleware proporciona una capa de software entre las aplicaciones, el sistema operativo y las capas de comunicación de la red, que facilita y coordina que facilita y coordina algún aspecto del procesamiento cooperativo. Desde el punto de vista perspectiva informática, un middleware proporciona una capa entre el software de aplicación y el software de sistema.\\
+
+En el IoT, es probable que haya una considerable heterogeneidad tanto en las tecnologías de comunicación en uso, como en las tecnologías a nivel de sistema, y un middleware debe soportar ambas perspectivas según sea necesario. 
+
+Basándonos en las características descritas anteriormente \ref{sec:iot} de la infraestructura del IoT y de las aplicaciones que dependen de ella, se establecen un conjunto de requisitos para que un middleware soporte el IoT. A continuación, estos requisitos se agrupan en dos conjuntos: los servicios que debe proporcionar dicho middleware y la arquitectura del sistema \cite{7322178}-\cite{7582463}.
 
 \subsection{Requisitos del servicio de middleware}
 
@@ -53,7 +71,51 @@ En esta sección se muestran los requisitos para las abstracciones de programaci
 \end{itemize}
 
 
+\section{Entornos de desarrollo IoT}
 
+Una vez hemos visto requisitos que necesitamos en nuestro middleware, se van a comentar una serie de requisitos que buscamos en nuestro entorno de desarrollo IoT. \cite{agarwal2020investigating}-\cite{dumitru2017iot}-\cite{nakhuva2015study}
 
+\subsection{Requisitos para seleccionar un entorno de desarrollo IoT}
+
+Algunos requisitos principales en los que nos tenemos que fijar a la hora de seleccionar un entorno de desarrollo son:
+
+\begin{itemize}
+    \item \textbf{Seguridad y privacidad}. El framework debe de proporcionar seguridad en la capa de transporte para conexiones seguras (encriptación SSL) y no comprometer en el entorno de trabajo. Con esto, conseguimos privacidad, autenticación e integridad en los datos. 
+    \item \textbf{Dificultad de uso}. Seleccionar un framework que sea sencillo de usar para desarrolladores. Esto incluye el lenguaje de programación que se use para hacer la aplicación.
+    \item \textbf{Código abierto}. Se trata de evitar aquellos entornos de desarrollo en los que hay que pagar por su uso o que den un periodo de prueba gratuito. Las plataformas de código abierto permiten que las plataformas sean gestionadas por el desarrollador según sus necesidades.
+    \item \textbf{Soporte}. Se busca un framework que sea popular y tenga un equipo y comunidad activa, que continuamente este aportando nuevas características al proyecto.
+\end{itemize}
+
+También existen otras características en las que nos podemos fijar que pueden resultar útiles dependiendo del tipo de aplicación que queremos desarrollar:
+
+\begin{itemize}
+    \item \textbf{Tipo de soporte de protocolo de comunicación}. Los dispositivos IoT soportan múltiples protocolos de comunicación. Algunos son ligeros y otros son seguros. El protocolo a elegir depende de los requisitos de la aplicación IoT. CoAP es similar a HTTP pero es ligero, por lo que es más adecuado para aplicaciones móviles. MQTT también es ligero y soporta el concepto de broker, por lo que es bueno para aplicaciones de ancho de banda limitado. CoAP es bueno para la multidifusión y la difusión.
+    \item \textbf{Disponibilidad}. La disponibilidad y la estabilidad son parámetros importantes para los requisitos del IoT. Por ejemplo, una aplicación enfocada a la salud requiere que los datos datos médicos del paciente para ser monitorizados continuamente.
+    \item \textbf{Tecnologías de almacenamiento utilizadas}. Diferentes tecnologías de almacenamiento y procesamiento sobre la nube soportan diferentes tipos de análisis. Según los requisitos de procesamiento de datos, se puede seleccionar una nube con diferentes tecnologías de almacenamiento.
+    \item \textbf{Tipo de análisis soportado}. Las aplicaciones de IoT suelen requerir datos en tiempo real o datos históricos para el desarrollo de la aplicación. La elección de la tecnología adecuada para aplicar la analítica al tipo de datos generados por el dispositivo en la aplicación es otro factor importante.
+\end{itemize}
+
+\subsection{Varios framework IoT}
+
+\subsubsection{KAA IoT}
+    Es totalmente gratis, tiene capacidad para gestionar millones de sensores, recoger y analizar datos en tiempo real y visualizarlos, gestionar y conectar productos inteligentes con ayuda de nube. Permite la gestión de los datos de los objetos conectados y la infraestructura de back-end que proporciona los componentes del SDK del servidor y del endpoint. KAA proporciona la funcionalidad de back-end necesaria para operar una solución IoT. Proporciona flexibilidad a los usuarios para implementar sus propias políticas de seguridad.\\ 
+    
+    Kaa proporciona un gateway que aporta la posibilidad de conectar diferentes redes entre si. Los protocolos de comunicación que usa para comunicarse con los dispositivos son MQTT y COAP. Para especificar un dispositivo se hace en JSON, donde cada dispositivo es un objeto. Kaa permite el análisis de datos y para ello usa tecnologías como NoSQL, Cassandra, Hadoop y MongoDB. Kaa soporta lenguajes de programación como Java, C, C++. \cite{kaaiot}
+    
+\subsubsection{ThingSpeak}
+
+Es un framework que se caracteriza por sus visualizaciones y predicciones utilizando MATLAB. Soporta datos con formato JSON y XML. Es de código abierto. Soporta múltiples dispositivos y permite utilizar protocolos como MQTT o Rest API para la comunicación entre dispositivos. Proporciona seguridad en la capa de transporta con encriptación en las comunicaciones. \cite{thingspeak}
+
+\subsection{Macchina.io}
+
+Este framework se divide en dos productos, el primero es el \textbf{Edge} que permite que las aplicaciones se ejecuten en dispositivos basados en Linux utilizando C++ y Javascript. Y el segundo producto es el \textbf{Remote} que permite gestionar la infraestructura mediante paneles web y aplicaciones móviles. Una de las tecnologías que utiliza es SQLite e incluye soporte para protocolos de comunicación como MQTT, SOAP, HTTP. \cite{macchinaio}
+
+\subsection{Altair (Carriots)}
+
+Altair, anteriormente ``Carriots``, es una plataforma diseñada para proyectos IoT. Permite integrar los dispositivos de IoT a una aplicación externa que requiera de los datos mientras ellos se encargan del almacenamiento y la comunicación. Soporta XML, JSON y API Rest. No es gratis, tiene un plan de subscripción. Permite escribir aplicaciones en Java. Para la comunicación entre dispositivos usa MQTT, no posee encriptación en la comunicación pero si posee un mecanismo de autenticación y autorización. Para el almacenamiento usa NoSQL. \cite{altair}
+
+\subsection{Zetta}
+
+Es una plataforma de código abierto construida sobre Node.js para crear servidores del Internet de las Cosas que se ejecutan a través de ordenadores geodistribuidos y la nube. Zetta combina las API de REST, los WebSockets y la programación reactiva, lo que resulta perfecto para ensamblar muchos dispositivos en aplicaciones de uso intensivo de datos en tiempo real. Zetta tiene la capacidad de convertir cualquier dispositivo en una API. Al comunicarse con microcontroladores como Arduino y Spark Core, Zetta puede proporcionar a cada dispositivo una API REST tanto localmente como en la nube. Zetta es ``developer friendly`` lo que significa que es sencillo desarrollar usando esta plataforma. Entre las tecnologías que usa esta API Rest y JSON. \cite{zetta}
 
 }
