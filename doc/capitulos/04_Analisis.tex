@@ -118,4 +118,42 @@ Altair, anteriormente ``Carriots``, es una plataforma diseñada para proyectos I
 
 Es una plataforma de código abierto construida sobre Node.js para crear servidores del Internet de las Cosas que se ejecutan a través de ordenadores geodistribuidos y la nube. Zetta combina las API de REST, los WebSockets y la programación reactiva, lo que resulta perfecto para ensamblar muchos dispositivos en aplicaciones de uso intensivo de datos en tiempo real. Zetta tiene la capacidad de convertir cualquier dispositivo en una API. Al comunicarse con microcontroladores como Arduino y Spark Core, Zetta puede proporcionar a cada dispositivo una API REST tanto localmente como en la nube. Zetta es ``developer friendly`` lo que significa que es sencillo desarrollar usando esta plataforma. Entre las tecnologías que usa esta API Rest y JSON. \cite{zetta}
 
+\subsection{Temboo}
+
+Es un framework que entra dentro de la categoría de plataformas que son ``developer friendly``, es decir, para conectar dispositivos y hacer tareas simples se hace de manera rápida y sin complicaciones en el código. Soporta datos en Excel, CSV, XML y JSON. Soporta lenguajes de programación como C, Java, Python y Javascript. No es gratuito, requiere de un plan de subscripción para empezar a utilizarlo. Tiene soporte con múltiples dispositivos, entre ellos Arduino y a destacar Samsung Artik. Los protocolos que soporta son HTTP, MQTT, CoAP. Y tiene soporte de tecnologías como Microsoft Power BI y Google BigQuery. \cite{temboo}
+
+\subsection{Particle}
+
+Particle es una plataforma de IoT escalable, fiable y segura. Una característica clave es la capacidad de ejecutar código de cableado de Arduino y Raspberry Pi haciendo más fácil conectar componentes electrónicos a la nube. Los primeros 100 dispositivos que se conecten son gratuitos. En cuanto a la seguridad, es uno de los frameworks con más características relacionadas con esta, posee encriptación en las comunicaciones, autenticación, autorización y posibilidad de auditoría de seguridad, todo esto bajo el protocolo HTTP. Soporta datos en formato CSV y se puede desarrollar código Javascript y en particle js, una librería ligera de Javascript.
+
+\subsection{Soluciones comerciales}
+
+Hay otras soluciones comerciales donde nos encotramos plataformas como AWS IoT, Microsoft Azure IoT Hub, IBM Watson IoT, Google IoT y Oracle IoT. Todas estas alternativas son bastante similares a todas las comentadas hasta el momento, se diferencian entre si por ciertas características como el soporte en lenguajes de programación, donde aparecen lenguajes que no vemos en otras plataformas como son Ruby, .NET, Go, php. En la siguiente tabla se muestran características de estas plataformas : 
+
+
+\begin{table}[H]
+	\centering
+	\label{tabla-commercial-solutions}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{ | m{3.5cm} | m{2cm} | m{3cm} | m{2cm} | m{3cm} |}
+		\toprule
+		\rowcolor[HTML]{ECF4FF} 
+		\textbf{Framework IoT} & \textbf{Soporte de datos} & \textbf{Soporte de lenguajes de programación} & \textbf{Protocolos} & \textbf{Seguridad} \\ \midrule
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}AWS IoT\end{tabular}} & JSON                & Java, C, NodeJS, Javascript, Python, iOS, Android & HTTP, MQTT, Websockets & Encriptación, autenticación, autorización, auditoría                  \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Microsoft Azure IoT\end{tabular}} & JSON  & .NET, UWP, Java, C, NodeJS, Ruby, Android, iOS & HTTP, AMQP & Encriptación, autenticación, autorización, políticas definidas por usuario                   \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}IBM Watson IoT\end{tabular}} & JSON, CSV  & C\#, C, Python, Java, NodeJS & MQTT & Autenticación, Autorización                  \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Oracle IoT\end{tabular}} & JSON, CSV  & Java, Javascript, Android, C, iOS & REST API & Autenticación, Autorización \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Google IoT\end{tabular}} & JSON                & Go,Java, .NET, Node.js, php, Python, Ruby & MQTT, HTTP & Autenticación                  \\ \bottomrule
+	\end{tabular}}
+	\caption{Características de soluciones comerciales para framework IoT. \cite{agarwal2020investigating}}
+\end{table}
+
+\section{Elección del entorno de desarrollo}
+
+
+%Conclusión
+
+%Aquellos frameworks ``developer friendly``, por el hecho de ser plataformas donde ofrecen ayudar por desarrollar y desplegar la aplicación requieren de una subscripción para hacer uso de estas.
+
+
 }
