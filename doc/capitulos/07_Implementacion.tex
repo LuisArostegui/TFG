@@ -15,7 +15,7 @@ La implementación de la aplicación se realiza con \textbf{Kaa IoT} tal y como 
 
 \section{Conectar dispositivo}
 
-En este apartado se trata de explicar el proceso de conexión de un dispositivo con nuestra aplicación, desde crear un endpoint hasta ver la información del dispositivo en nuestra interfaz de usuario. Esto engloba varios términos y conceptos que se van a definir a continuación.
+En este apartado se trata de explicar el proceso de conexión de un dispositivo con nuestra aplicación, desde crear un endpoint hasta ver la información del dispositivo en nuestra interfaz de usuario. Esto engloba varios términos y conceptos que se van a definir a continuación. \cite{kaaiotConnectDevice}
 
 \subsection{Términos y conceptos} \label{initial-terms}
 
@@ -251,3 +251,34 @@ La ejecución de este código produce el mismo efecto que el visto con HTTP. Se 
 }
 
 \section{Recogida de datos de un dispositivo}
+
+En esta sección se trata de seguir completando nuestra aplicación, para ello vamos a ver como recoger datos de un dispositivo, visualizar estos datos y como transformarlos para darles un uso productivo. Antes de empezar con la implementación se definen, como anteriormente, términos y conceptos claves relacionados con el framework para entender el desarrollo. \cite{kaaiotCollectData}
+
+\subsection{Términos y conceptos}
+
+\subsubsection{Muestra de datos}
+
+Una muestra de datos hay que pensar en ella como un bloque de datos en formato \textbf{JSON}, este será enviado por un cliente a la aplicación. Un dispositivo recogerá datos del entorno para el que se haya configurado, estos datos los formateará y los enviará al framework en formato JSON para que sean tratados. Por ejemplo, si tenemos un dispositivo destinado a medir el tiempo meteorológico podremos obtener datos como los siguientes:
+
+\begin{lstlisting}[language=Python]
+{
+  "temperature": 25,
+  "humidity": 46,
+  "pressure": 800
+}
+\end{lstlisting}
+
+\subsubsection{Series temporales}
+
+Las series temporales son una secuencia de puntos de datos con nombre. Cada punto de datos contiene una marca de tiempo y uno o más valores con nombre. Un conjunto de nombres de valores y sus tipos (numérico, string, booleano) define una serie temporal.
+
+Es posible definir diferentes series temporales para varias cosas. Por ejemplo, una serie temporal puede tener sólo un valor numérico o por otro lado, otra serie temporal puede tener varios valores numéricos.
+
+Se puede configurar la aplicación para que transforme las muestras de datos recibidas del endpoint en series temporales para mostrarlas en gráficos, indicadores, mapas, etc. El microservicio responsable de extraer los puntos de datos de las muestras de datos, almacenarlos y recuperarlos, es el servicio Endpoint Time Series (EPTS).
+
+Además, el EPTS tiene una función de auto-extracción que almacena cada campo numérico de muestra de datos de nivel superior en una serie temporal separada. Todas las series temporales auto-extraídas tienen un nombre que sigue el patrón auto~<nombre del campo> y un valor numérico con el valor del nombre. Así, si un endpoint envía datos con una muestra con dos campos y la función de auto-extracción está activada, el EPTS crea dos series temporales.
+
+\subsection{Pasos a seguir}
+
+\subsubsection{Activar la autoextracción de series temporales}
+
