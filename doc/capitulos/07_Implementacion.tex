@@ -137,7 +137,7 @@ Una vez ya hemos creado nuestro primer endpoint, podemos conectar un cliente y o
 
 Para hacer uso de los protocolos y completar la integración del cliente necesitaremos el nombre de la versión y el token del endpoint. En esta sección se va a mostrar como hacer uso de ambos protocolos, concretamente de las órdenes para poder ejecutar la conexión con nuestro dispositivo, en la sección de \textit{Pruebas} \ref{pruebas} se mostrarán los datos que obtenemos tras su ejecución.\\
 
-\paragraph{Conexión mediante HTTP}
+\paragraph{Conexión mediante HTTP} \label{http-connection} \hspace{0pt} \\
 
 Para obtener todos los atributos de los metadatos con \textbf{HTTP} vamos a hacer uso de cURL \footnote{Es un proyecto de software consistente en una biblioteca y un intérprete de comandos orientado a la transferencia de archivos. Soporta los protocolos FTP, FTPS, HTTP, HTTPS, TFTP, SCP, SFTP, Telnet, DICT, FILE y LDAP, entre otros.} para enviar una solicitud de actualización de datos del dispositivo.
 
@@ -152,7 +152,7 @@ curl - -location - -request POST 'https://connect.cloud.kaaiot.com:443/kp1/
 
 Ejecutando esta instrucción añadiremos nuevos metadatos a nuestro dispositivo, concretamente la dirección física y el modelo de este.
 
-\paragraph{Conexión mediante MQTT}
+\paragraph{Conexión mediante MQTT} \label{mqtt-connection} \hspace{0pt} \\
 
 Para hacer la conexión mediante \textbf{MQTT} se ha optado por la opción de usar Python en su versión 3.10, obtenemos un código como el siguiente.
 
@@ -248,7 +248,6 @@ if __name__ == '__main__':
 \end{lstlisting}
 
 La ejecución de este código produce el mismo efecto que el visto con HTTP. Se usa \textit{decouple} para evitar mostrar los datos de configuración de la aplicación, como el endpoint o la versión de la aplicación (lineas 12-16).
-}
 
 \section{Recogida de datos de un dispositivo}
 
@@ -282,3 +281,112 @@ Además, el EPTS tiene una función de auto-extracción que almacena cada campo 
 
 \subsubsection{Activar la autoextracción de series temporales}
 
+Vamos a usar la opción de auto-extracción del EPTS. Para activarla tenemos que ir a la sección de ``Gestión de dispositivos`` -> ``Aplicaciones`` -> ``EPTS`` (en nuestra aplicación) -> Activar la casilla de \textbf{Auto extracción}.\\
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/autoextract-option.png}
+    \caption{Habilitar opción de auto extracción de datos}
+    \label{fig:figure10}
+\end{figure}
+
+En nuestro caso hemos creado una versión nueva de nuestra aplicación llamada ``section2`` para probar esta nueva característica de nuestra aplicación.
+
+Con esta función activada, se crearán automáticamente series temporales para cada campo numérico que se encuentre en la raíz de las muestras de datos que el endpoint envié. A continuación, podremos ver estas series temporales en la interfaz de usuario del framework, sin necesidad de realizar ninguna configuración adicional.
+
+Ahora en la vista de nuestro dispositivo, concretamente en la sección de ``telemetría del dispositivo``, podremos analizar los datos que recoge nuestro dispositivo.
+
+\paragraph{Envio de datos mediante HTTP} \hspace{0pt} \\
+
+Es muy similar a como vimos anteriormente en \ref{http-connection}.
+
+\begin{lstlisting}[language=bash]
+curl - -location - -request POST 'https://connect.cloud.kaaiot.com:443/kp1/
+<app-version-name>/dcx/<endpoint-token>/json' \
+- -data-raw '{
+      "intensidad": 50,
+      "color": 48
+}'
+\end{lstlisting}
+
+
+
+\paragraph{Envio de datos mediante MQTT} \hspace{0pt} \\
+
+Al igual que en la sección \ref{mqtt-connection} tenemos un código para hacer el envió de datos. En este caso se excluye la carga de configuración y paquetes importados.
+
+\begin{lstlisting}[language=Python]
+class DataCollectionClient:
+
+    def __init__(self, client):
+        self.client = client
+        self.data_collection_topic = f'kp1/{APPLICATION_VERSION}/dcx/{ENDPOINT_TOKEN}/json'
+
+    def connect_to_server(self):
+        print(f'Connecting to Kaa server at {KPC_HOST}:{KPC_PORT} using application version {APPLICATION_VERSION} and endpoint token {ENDPOINT_TOKEN}')
+        self.client.connect(KPC_HOST, KPC_PORT, 60)
+        print('Successfully connected')
+
+    def disconnect_from_server(self):
+        print(f'Disconnecting from Kaa server at {KPC_HOST}:{KPC_PORT}...')
+        self.client.loop_stop()
+        self.client.disconnect()
+        print('Successfully disconnected')
+
+    def compose_data_sample(self):
+        return json.dumps({
+            'timestamp': int(round(time.time() * 1000)),
+            'intensidad': random.randint(15, 25),
+            'color': random.randint(35, 60),
+        })
+
+
+def on_message(client, userdata, message):
+    print(f'<-- Received message on topic "{message.topic}":\n{str(message.payload.decode("utf-8"))}')
+
+
+def main():
+    client = mqtt.Client(client_id=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6)))
+
+    data_collection_client = DataCollectionClient(client)
+    data_collection_client.connect_to_server()
+    client.on_message = on_message
+
+    client.loop_start()
+
+    listener = SignalListener()
+    while listener.keepRunning:
+
+        payload = data_collection_client.compose_data_sample()
+
+        result = data_collection_client.client.publish(topic=data_collection_client.data_collection_topic, payload=payload)
+        if result.rc != 0:
+            print('Server connection lost, attempting to reconnect')
+            data_collection_client.connect_to_server()
+        else:
+            print(f'--> Sent message on topic "{data_collection_client.data_collection_topic}":\n{payload}')
+
+        time.sleep(3)
+
+    data_collection_client.disconnect_from_server()
+
+
+class SignalListener:
+    keepRunning = True
+
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.stop)
+        signal.signal(signal.SIGTERM, self.stop)
+
+    def stop(self, signum, frame):
+        print('Shutting down...')
+        self.keepRunning = False
+
+
+if __name__ == '__main__':
+    main()
+\end{lstlisting}
+
+Con este código se entra en un bucle donde se van haciendo llamadas al dispositivo y recogiendo información. La información que nos llega viene en formato JSON que se especifica en la función \textit{compose\_data\_sample}.
+
+}
