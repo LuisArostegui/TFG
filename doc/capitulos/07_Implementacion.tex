@@ -269,19 +269,19 @@ Una muestra de datos hay que pensar en ella como un bloque de datos en formato \
 
 \subsubsection{Series temporales}
 
-Las series temporales son una secuencia de puntos de datos con nombre. Cada punto de datos contiene una marca de tiempo y uno o más valores con nombre. Un conjunto de nombres de valores y sus tipos (numérico, string, booleano) define una serie temporal.
+Las series temporales son una secuencia de puntos de datos con nombre. Cada punto de datos contiene una marca de tiempo y uno o más valores con nombre. Un conjunto de nombres de valores y sus tipos (numérico, string, booleano) define una serie temporal. \\
 
-Es posible definir diferentes series temporales para varias cosas. Por ejemplo, una serie temporal puede tener sólo un valor numérico o por otro lado, otra serie temporal puede tener varios valores numéricos.
+Es posible definir diferentes series temporales para varias cosas. Por ejemplo, una serie temporal puede tener sólo un valor numérico o por otro lado, otra serie temporal puede tener varios valores numéricos. \\
 
-Se puede configurar la aplicación para que transforme las muestras de datos recibidas del endpoint en series temporales para mostrarlas en gráficos, indicadores, mapas, etc. El microservicio responsable de extraer los puntos de datos de las muestras de datos, almacenarlos y recuperarlos, es el servicio Endpoint Time Series (EPTS).
+Se puede configurar la aplicación para que transforme las muestras de datos recibidas del endpoint en series temporales para mostrarlas en gráficos, indicadores, mapas, etc. El microservicio responsable de extraer los puntos de datos de las muestras de datos, almacenarlos y recuperarlos, es el servicio Endpoint Time Series (EPTS). \\
 
-Además, el EPTS tiene una función de auto-extracción que almacena cada campo numérico de muestra de datos de nivel superior en una serie temporal separada. Todas las series temporales auto-extraídas tienen un nombre que sigue el patrón auto~<nombre del campo> y un valor numérico con el valor del nombre. Así, si un endpoint envía datos con una muestra con dos campos y la función de auto-extracción está activada, el EPTS crea dos series temporales.
+Además, el EPTS tiene una función de auto-extracción que almacena cada campo numérico de muestra de datos de nivel superior en una serie temporal separada. Todas las series temporales auto-extraídas tienen un nombre que sigue el patrón auto~<nombre del campo> y un valor numérico con el valor del nombre. Así, si un endpoint envía datos con una muestra con dos campos y la función de auto-extracción está activada, el EPTS crea dos series temporales. \\
 
 \subsection{Pasos a seguir}
 
 \subsubsection{Activar la autoextracción de series temporales}
 
-Vamos a usar la opción de auto-extracción del EPTS. Para activarla tenemos que ir a la sección de ``Gestión de dispositivos`` -> ``Aplicaciones`` -> ``EPTS`` (en nuestra aplicación) -> Activar la casilla de \textbf{Auto extracción}.\\
+Vamos a usar la opción de auto-extracción del EPTS. Para activarla tenemos que ir a la sección de ``Gestión de dispositivos`` -> ``Aplicaciones`` -> ``EPTS`` (en nuestra aplicación) -> Activar la casilla de \textbf{Auto extracción}. \\
 
 \begin{figure}[hb!]
     \centering
@@ -290,9 +290,9 @@ Vamos a usar la opción de auto-extracción del EPTS. Para activarla tenemos que
     \label{fig:figure10}
 \end{figure}
 
-En nuestro caso hemos creado una versión nueva de nuestra aplicación llamada ``section2`` para probar esta nueva característica de nuestra aplicación.
+En nuestro caso hemos creado una versión nueva de nuestra aplicación llamada ``section2`` para probar esta nueva característica de nuestra aplicación. \\
 
-Con esta función activada, se crearán automáticamente series temporales para cada campo numérico que se encuentre en la raíz de las muestras de datos que el endpoint envié. A continuación, podremos ver estas series temporales en la interfaz de usuario del framework, sin necesidad de realizar ninguna configuración adicional.
+Con esta función activada, se crearán automáticamente series temporales para cada campo numérico que se encuentre en la raíz de las muestras de datos que el endpoint envié. A continuación, podremos ver estas series temporales en la interfaz de usuario del framework, sin necesidad de realizar ninguna configuración adicional. \\
 
 Ahora en la vista de nuestro dispositivo, concretamente en la sección de ``telemetría del dispositivo``, podremos analizar los datos que recoge nuestro dispositivo.
 
@@ -388,5 +388,172 @@ if __name__ == '__main__':
 \end{lstlisting}
 
 Con este código se entra en un bucle donde se van haciendo llamadas al dispositivo y recogiendo información. La información que nos llega viene en formato JSON que se especifica en la función \textit{compose\_data\_sample}.
+
+
+\section{Envío de comandos al dispositivo}
+
+En esta sección se trata de ejecutar comandos en nuestro dispositivo.
+
+\subsection{Términos y conceptos}
+
+\subsubsection{Comando}
+
+Un comando es un mensaje de corta duración enviado a un endpoint. Con los comandos se pueden encender y apagar las luces o solicitar un informe inmediato del estado de un endpoint.\\
+
+Cualquier comando puede estar en estado pendiente o ejecutado. El estado pendiente significa que el comando ha sido invocado pero aún no se conoce el resultado de su ejecución. El estado ejecutado se asigna al comando que ha obtenido una respuesta del endpoint, lo que significa que un endpoint recibió el comando, lo ejecutó y envió el resultado de la ejecución a la aplicación.\\
+
+\subsubsection{Tipo de comando}
+
+Representa el comando que se desea ejecutar en un endpoint, por ejemplo, reiniciar o encender la luz. Un endpoint puede manejar tantos tipos de comandos como se definan en su firmware.
+
+\subsection{Pasos a seguir}
+
+\subsubsection{Invocar un comando}
+
+\paragraph{Ejecución con HTTP}  \hspace{0pt} \\
+
+Cuando se invoca un comando en un dispositivo que se conecta a la aplicación a través de un protocolo \textbf{síncrono}, por ejemplo, HTTP, no hay manera de que la plataforma envié dicho comando al dispositivo. En su lugar, el framework persiste el comando y espera hasta que el dispositivo lo solicite para su ejecución. Esto significa que para los dispositivos con protocolos \textbf{síncronos} es nuestra responsabilidad sondear periódicamente la aplicación para nuevos comandos. \\
+
+Para invocar un comando en la sección de ``Dispositivos`` hay un cuadro llamado \textit{Ejecución de comandos}. Aquí indicamos el nombre del tipo de comando y una retención máxima. La retención máxima para la entrega define el tiempo en el que el comando está disponible para su ejecución. Una vez rellenado estos campos podemos clickar en ``run``. Con esto hemos conseguido que si durante la próxima hora se llama a este comando, se ejecutará en el dispositivo. Para hacer la llamada se puede hacer se la siguiente manera:
+
+\begin{lstlisting}[language=bash]
+curl --location --request POST 'https://connect.cloud.kaaiot.com:443/kp1/<app-version-name>/cex/<endpoint-token>/command/<command-name>' \
+--data-raw '{}'
+\end{lstlisting}
+
+Ejecutándolo, obtendremos como respuesta un ID para identificar de forma única el comando. Con la anterior orden hemos conseguido dejar en \textit{Pendiente}. Para ejecutar el comando, mandaremos la siguiente orden:
+
+\begin{lstlisting}[language=bash]
+curl --location --request POST 'https://connect.cloud.kaaiot.com:443/kp1/<app-version-name>/cex/<endpoint-token>/result/<command-name>' \
+--data-raw '[{
+    "id": <command-ID>,
+    "statusCode": 200,
+    "reasonPhrase": "OK",
+    "payload": "Success"
+}]'
+\end{lstlisting}
+
+Cuando recibe la aplicación el resultado de la ejecución del comando con el ID, marca este como \textit{Ejecutado}.
+
+\paragraph{Ejecución con MQTT}  \hspace{0pt} \\
+
+Con este protocolo el proceso se simplifica. Simplemente tenemos que dejar ejecutando el siguiente código y desde nuestro framework indicamos el tipo de comando y acción sobre el dispositivo.
+
+\begin{lstlisting}[language=Python]
+class DataCollectionClient:
+
+    def __init__(self, client):
+        self.client = client
+        self.data_collection_topic = f'kp1/{APPLICATION_VERSION}/dcx/{ENDPOINT_TOKEN}/json/32'
+
+        command_reboot_topic = f'kp1/{APPLICATION_VERSION}/cex/{ENDPOINT_TOKEN}/command/reboot/status'
+        self.client.message_callback_add(command_reboot_topic, self.handle_reboot_command)
+        self.command_reboot_result_topik = f'kp1/{APPLICATION_VERSION}/cex/{ENDPOINT_TOKEN}/result/reboot'
+
+        command_zero_topic = f'kp1/{APPLICATION_VERSION}/cex/{ENDPOINT_TOKEN}/command/zero/status'
+        self.client.message_callback_add(command_zero_topic, self.handle_zero_command)
+        self.command_zero_result_topik = f'kp1/{APPLICATION_VERSION}/cex/{ENDPOINT_TOKEN}/result/zero'
+
+    def connect_to_server(self):
+        print(f'Connecting to Kaa server at {KPC_HOST}:{KPC_PORT} using application version {APPLICATION_VERSION} and endpoint token {ENDPOINT_TOKEN}')
+        self.client.connect(KPC_HOST, KPC_PORT, 60)
+        print('Successfully connected')
+
+    def disconnect_from_server(self):
+        print(f'Disconnecting from Kaa server at {KPC_HOST}:{KPC_PORT}...')
+        self.client.loop_stop()
+        self.client.disconnect()
+        print('Successfully disconnected')
+
+    def handle_reboot_command(self, client, userdata, message):
+        print(f'<--- Received "reboot" command on topic {message.topic} \nRebooting...')
+        command_result = self.compose_command_result_payload(message)
+        print(f'command result {command_result}')
+        client.publish(topic=self.command_reboot_result_topik, payload=command_result)
+        # With below approach we don't receive the command confirmation on the server side.
+        # self.client.disconnect()
+        # time.sleep(5)  # Simulate the reboot
+        # self.connect_to_server()
+
+    def handle_zero_command(self, client, userdata, message):
+        print(f'<--- Received "zero" command on topic {message.topic} \nSending zero values...')
+        command_result = self.compose_command_result_payload(message)
+        client.publish(topic=self.data_collection_topic, payload=self.compose_data_sample(0, 0, 0))
+        client.publish(topic=self.command_zero_result_topik, payload=command_result)
+
+    def compose_command_result_payload(self, message):
+        command_payload = json.loads(str(message.payload.decode("utf-8")))
+        print(f'command payload: {command_payload}')
+        command_result_list = []
+        for command in command_payload:
+            commandResult = {"id": command['id'], "statusCode": 200, "reasonPhrase": "OK", "payload": "Success"}
+            command_result_list.append(commandResult)
+        return json.dumps(
+            command_result_list
+        )
+
+    def compose_data_sample(self, fuelLevel, minTemp, maxTemp):
+        return json.dumps({
+            'timestamp': int(round(time.time() * 1000)),
+            'fuelLevel': fuelLevel,
+            'temperature': random.randint(minTemp, maxTemp),
+        })
+
+
+def on_message(client, userdata, message):
+    print(f'Message received: topic {message.topic}\nbody {str(message.payload.decode("utf-8"))}')
+
+
+def main():
+    # Initiate server connection
+    client = mqtt.Client(client_id=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6)))
+
+    data_collection_client = DataCollectionClient(client)
+    data_collection_client.connect_to_server()
+
+    client.on_message = on_message
+
+    # Start the loop
+    client.loop_start()
+
+    fuelLevel, minTemp, maxTemp = 100, 95, 100
+
+    # Send data samples in loop
+    listener = SignalListener()
+    while listener.keepRunning:
+
+        payload = data_collection_client.compose_data_sample(fuelLevel, minTemp, maxTemp)
+
+        result = data_collection_client.client.publish(topic=data_collection_client.data_collection_topic, payload=payload)
+        if result.rc != 0:
+            print('Server connection lost, attempting to reconnect')
+            data_collection_client.connect_to_server()
+        else:
+            print(f'--> Sent message on topic "{data_collection_client.data_collection_topic}":\n{payload}')
+
+        time.sleep(3)
+
+        fuelLevel = fuelLevel - 0.3
+        if fuelLevel < 1:
+            fuelLevel = 100
+
+    data_collection_client.disconnect_from_server()
+
+
+class SignalListener:
+    keepRunning = True
+
+    def __init__(self):
+        signal.signal(signal.SIGINT, self.stop)
+        signal.signal(signal.SIGTERM, self.stop)
+
+    def stop(self, signum, frame):
+        print('Shutting down...')
+        self.keepRunning = False
+
+
+if __name__ == '__main__':
+    main()
+\end{lstlisting}
 
 }
