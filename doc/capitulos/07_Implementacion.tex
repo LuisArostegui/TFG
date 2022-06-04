@@ -1,0 +1,209 @@
+\chapter{Implementación}
+{\color{blue}
+
+La implementación de la aplicación se realiza con \textbf{Kaa IoT} tal y como se analizo anteriormente \ref{eleccion-framework}. Para empezar a usar el framework, hay que registrarse en sistema. Una vez registrados tendremos acceso a nuestro \textit{dashboard} \footnote{Hace referencia al cuadro de mandos al que tenemos acceso para interactuar con nuestro dispositivo y todas las posibles configuraciones}. En este capítulo se trata de mostrar una guía con la que se consiga conectar un dispositivo, recoger y enviar datos desde/hacia el dispositivo y mostrar las opciones que nos ofrece Kaa IoT como framework IoT. Para empezar, vamos a conectar nuestro primer dispositivo.
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/dashboard.png}
+    \caption{Dashboard Kaa IoT.}
+    \label{fig:figure5}
+\end{figure}
+
+
+\section{Conectar dispositivo} \label{connect-dispositivo}
+
+En este apartado se trata de explicar el proceso de conexión de un dispositivo con nuestra aplicación, desde crear un endpoint hasta ver la información del dispositivo en nuestra interfaz de usuario. Esto engloba varios términos y conceptos que se van a definir a continuación. \cite{kaaiotConnectDevice}
+
+\subsection{Términos y conceptos} \label{initial-terms}
+
+\subsubsection{Endpoints}
+
+Los endpoints representan ``el elemento de las cosas`` del IoT. Un endpoint es cualquier dispositivo terminal que se quiera gestionar, en nuestro caso desde Kaa IoT. Un endpoint puede ser un dispositivo físico o una emulación de software del mismo. Todos los datos que llegan a la aplicación están asociados a endpoints. \cite{kaaiotConcepts}
+
+Para ser precisos, un endpoint puede ser una unidad menor que un dispositivo, lo que significa que un dispositivo físico puede incluir múltiples endpoints. Por ejemplo, quieres gestionar un termostato, para que el aire acondicionado se encienda y apague automáticamente a cierta temperatura.
+
+Se puede gestionar el termostato de una de las siguientes maneras:
+
+\begin{itemize}
+    \item Toda la unidad del termostato actúa como un endpoint único que intercambia datos con el servidor.
+    \item Los componentes del termostato, como los sensores de temperatura y humedad, interruptor de encendido/apagado, actúan como endpoints individuales.
+\end{itemize}
+
+\subsubsection{ID de Endpoint}
+
+El ID de endpoints se utiliza para identificar de forma única un endpoint dentro de una instancia. Un ID de endpoints suele ser un UUID generado automáticamente por el framework en el momento de crear un nuevo endpoint. No obstante, también se permiten los ID de endpoints definidos por el usuario. El ID de los endpoints no puede modificarse una vez creado.
+
+Todos los datos de los endpoints, como los atributos de los metadatos, los puntos de datos de series temporales recopilados, los comandos, etc., están asociados a un ID de endpoint específico. Siempre que recupere o gestione datos relacionados con endpoints en Kaa, principalmente a través de la API REST, se verá los ID de endpoints.
+
+\subsubsection{Token del Endpoint} \label{llamada-mqtt}
+
+Los tokens de endpoints se utilizan para la identificación de endpoints cuando se intercambian datos relacionados con los endpoints, utilizando los protocolos compatibles basados en MQTT y HTTP. Los tokens de endpoint son únicos dentro de una aplicación IoT y se asignan exactamente a un endpoint.
+
+Cuando llega un mensaje de un cliente, el token del endpoint se resuelve en el correspondiente ID del endpoint. Un ejemplo sobre el protocolo MQTT, el token del endpoint va dentro de la llamada MQTT, por ejemplo:
+
+\begin{lstlisting}[language=HTML]
+kp1/<APPLICATION_VERSION>/epmx/<ENDPOINT_TOKEN>/get
+\end{lstlisting}
+
+Normalmente, los tokens son cadenas generadas automáticamente por el framework, pero también se puede crear un token como el usuario quiera, por ejemplo, por el número de serie del dispositivo, dirección MAC, etc.
+
+\subsubsection{Metadatos del endpoint}
+
+Los metadatos de los endpoints son un conjunto de atributos clave-valor asociados a un endpoint. Se representan en el framework como un documento JSON de formato arbitrario.
+
+Los metadatos de endpoints suelen incluir alguna información relacionada con los endpoints, como la ubicación, la descripción, el número de serie, la versión de hardware, etc. Los metadatos se almacenan en el servicio de registro de endpoints y pueden leerse o actualizarse de dos maneras:
+
+\begin{itemize}
+    \item A través de la capa de comunicación.
+    \item A través de la API REST.
+\end{itemize}
+
+También se pueden gestionar los metadatos mediante la interfaz de usuario del framework.
+
+\subsubsection{Aplicaciones y versiones}
+
+Las aplicaciones en Kaa IoT sirven como contenedores para endpoints de diferentes tipos. Se puede tener una aplicación que contenga todos los endpoints que representan a un determinado dispositivo, y una aplicación para otro dispositivo, independiente de la otra aplicación. Las aplicaciones IoT también albergan toda la configuración del sistema necesaria para que el framework conozca las capacidades de sus dispositivos conectados y cómo trabajar con ellos.
+
+Puede pasar que ya hemos configurado nuestro dispositivo, pero queremos implementar una nueva característica. Al implementarla se actualiza el firmware del dispositivo y se empieza a desplegar pero, ¿como diferenciamos entre los dispositivos que ya tienen el nuevo firmware y las que no? Aquí aparecen las versiones de una aplicación.
+
+Cada aplicación puede tener varias versiones al mismo tiempo. Cada versión representa un conjunto de capacidades soportadas por los endpoints. En cualquier momento, cada endpoint está asociado a una versión de su aplicación. El conocimiento de la versión actual de la aplicación de un endpoint ayuda al framework a entender qué funcionalidad soporta el endpoint, cómo se formatean los datos, etc. Se puede utilizar las versiones para hacer evolucionar los dispositivos añadiendo o retirando funcionalidades mientras mantiene sus versiones antiguas en funcionamiento. Para diferenciar llamadas entre versiones se puede indicar como hemos visto en \ref{llamada-mqtt}.
+
+\subsection{Pasos a seguir}
+
+\subsubsection{Crear una aplicación y una versión}
+
+Como hemos visto en \ref{initial-terms}, para registrar un endpoint en nuestro framework necesitamos una aplicación y una versión de esta. Esto podemos gestionarlo desde la interfaz de usuario, concretamente en la sección ``Applications``, una vez en la sección usaremos el botón de ``Add application``. Introduciremos el nombre de la aplicación (campo obligatorio) y tendremos la posibilidad de introducir una descripción. En nuestro caso la aplicación se llamará ``TFG-DASIoT``. \\
+
+Hay que tener en cuenta que tanto las aplicaciones como las versiones tienen:
+
+\begin{itemize}
+    \item Nombres autoasignados e inmutables que suelen ser como  \textbf{7bfdd6b9-ff44-4098-a4dc-58c0f3c9f693-v1}. Se utilizarán para las llamadas a la API, la integración con el cliente, etc.
+    \item Nombres de visualización arbitrarios que se pueden cambiar en cualquier momento. Estos nombres se utilizan en la interfaz de usuario de la plataforma para una mejor experiencia de usuario. Por ejemplo, en nuestro caso el nombre de la aplicación y la descripción que hayamos puesto.
+\end{itemize}
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/app-creada.png}
+    \caption{Nombre y descripción de la aplicación}
+    \label{fig:figure6}
+\end{figure}
+
+En la imagen también se puede observar como hay un identificador justo debajo del nombre que le hemos asignado a la aplicación, esto es para referenciar de manera univoca a esta. Y ahora que tenemos la aplicación, creamos una versión de esta.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/app-version.png}
+    \caption{Versiones de la aplicación}
+    \label{fig:figure7}
+\end{figure}
+
+La primera versión que hemos creado se llama ``test``. Y en la información de la aplicación podemos ver los servicios que tenemos activos.
+
+\begin{itemize}
+    \item \textbf{Data collection}. \textit{epts}, se refiere al servicio de series temporales de endpoints. Recibe muestras de datos de endpoints y los transforma en series temporales. \textit{dcx}, es un servicio de recogida de datos, permite a los endpoints enviar muestras de datos de telemetría a la aplicación.
+    \item \textbf{Configuration management}. \textit{ecr}, configuración del repositorio del endpoint, almacena los datos de configuración de los endpoints y proporciona una API REST para la gestión.
+\end{itemize}
+
+\subsubsection{Crear un endpoint}
+
+En la sección de ``Devices`` de nuestro dashboard, podremos añadir un nuevo dispositivo. Aqui indicaremos, la aplicación a la que va a estar asociada el dispositivo, un nombre para nuestro endpoint y opcionalmente podremos añadir metadatos.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/device-added.png}
+    \caption{Endpoint creado}
+    \label{fig:figure8}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/device-created-view.png}
+    \caption{Datos del dispositivo creado}
+    \label{fig:figure9}
+\end{figure}
+
+En nuestro caso, para referirnos al endpoint lo hacemos mediante el \textit{token endpoint} \ref{llamada-mqtt}, que como vemos en \ref{fig:figure8}, se llama token1. Esto lo usaremos en nuestra llamada mqtt para hacer referencia a este dispositivo.\\
+
+Para ver todos los datos del dispositivo se nos muestra como vemos en \ref{fig:figure9}. Donde podemos ver la aplicación a la que esta asociada, la fecha de creación y de su última actualización.
+
+\newpage
+
+
+\section{Recogida de datos de un dispositivo}
+
+En esta sección se trata de seguir completando nuestra aplicación, para ello vamos a ver como recoger datos de un dispositivo, visualizar estos datos y como transformarlos para darles un uso productivo. Antes de empezar con la implementación se definen, como anteriormente, términos y conceptos claves relacionados con el framework para entender el desarrollo. \cite{kaaiotCollectData}
+
+\subsection{Términos y conceptos}
+
+\subsubsection{Muestra de datos}
+
+Una muestra de datos hay que pensar en ella como un bloque de datos en formato \textbf{JSON}, este será enviado por un cliente a la aplicación. Un dispositivo recogerá datos del entorno para el que se haya configurado, estos datos los formateará y los enviará al framework en formato JSON para que sean tratados. Por ejemplo, si tenemos un dispositivo destinado a medir el tiempo meteorológico podremos obtener datos como los siguientes:
+
+\begin{lstlisting}[language=Python]
+{
+  "temperature": 25,
+  "humidity": 46,
+  "pressure": 800
+}
+\end{lstlisting}
+
+\subsubsection{Series temporales}
+
+Las series temporales son una secuencia de puntos de datos con nombre. Cada punto de datos contiene una marca de tiempo y uno o más valores con nombre. Un conjunto de nombres de valores y sus tipos (numérico, string, booleano) define una serie temporal. \\
+
+Es posible definir diferentes series temporales para varias cosas. Por ejemplo, una serie temporal puede tener sólo un valor numérico o por otro lado, otra serie temporal puede tener varios valores numéricos. \\
+
+Se puede configurar la aplicación para que transforme las muestras de datos recibidas del endpoint en series temporales para mostrarlas en gráficos, indicadores, mapas, etc. El microservicio responsable de extraer los puntos de datos de las muestras de datos, almacenarlos y recuperarlos, es el servicio Endpoint Time Series (EPTS). \\
+
+Además, el EPTS tiene una función de auto-extracción que almacena cada campo numérico de muestra de datos de nivel superior en una serie temporal separada. Todas las series temporales auto-extraídas tienen un nombre que sigue el patrón auto~<nombre del campo> y un valor numérico con el valor del nombre. Así, si un endpoint envía datos con una muestra con dos campos y la función de auto-extracción está activada, el EPTS crea dos series temporales. \\
+
+\subsection{Pasos a seguir}
+
+\subsubsection{Activar la autoextracción de series temporales}
+
+Vamos a usar la opción de auto-extracción del EPTS. Para activarla tenemos que ir a la sección de ``Gestión de dispositivos`` -> ``Aplicaciones`` -> ``EPTS`` (en nuestra aplicación) -> Activar la casilla de \textbf{Auto extracción}. \\
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/autoextract-option.png}
+    \caption{Habilitar opción de auto extracción de datos}
+    \label{fig:figure10}
+\end{figure}
+
+En nuestro caso hemos creado una versión nueva de nuestra aplicación llamada ``section2`` para probar esta nueva característica de nuestra aplicación. \\
+
+Con esta función activada, se crearán automáticamente series temporales para cada campo numérico que se encuentre en la raíz de las muestras de datos que el endpoint envié. A continuación, podremos ver estas series temporales en la interfaz de usuario del framework, sin necesidad de realizar ninguna configuración adicional. \\
+
+Ahora en la vista de nuestro dispositivo, concretamente en la sección de ``telemetría del dispositivo``, podremos analizar los datos que recoge nuestro dispositivo.
+
+\section{Envío de comandos al dispositivo}
+
+En esta sección se trata de ejecutar comandos en nuestro dispositivo.
+
+\subsection{Términos y conceptos}
+
+\subsubsection{Comando}
+
+Un comando es un mensaje de corta duración enviado a un endpoint. Con los comandos se pueden encender y apagar las luces o solicitar un informe inmediato del estado de un endpoint.\\
+
+Cualquier comando puede estar en estado pendiente o ejecutado. El estado pendiente significa que el comando ha sido invocado pero aún no se conoce el resultado de su ejecución. El estado ejecutado se asigna al comando que ha obtenido una respuesta del endpoint, lo que significa que un endpoint recibió el comando, lo ejecutó y envió el resultado de la ejecución a la aplicación.\\
+
+\subsubsection{Tipo de comando}
+
+Representa el comando que se desea ejecutar en un endpoint, por ejemplo, reiniciar o encender la luz. Un endpoint puede manejar tantos tipos de comandos como se definan en su firmware.
+
+\subsection{Pasos a seguir}
+
+\subsubsection{Invocar un comando}
+
+\paragraph{Ejecución con HTTP}  \hspace{0pt} \\
+
+Cuando se invoca un comando en un dispositivo que se conecta a la aplicación a través de un protocolo \textbf{síncrono}, por ejemplo, HTTP, no hay manera de que la plataforma envié dicho comando al dispositivo. En su lugar, el framework persiste el comando y espera hasta que el dispositivo lo solicite para su ejecución. Esto significa que para los dispositivos con protocolos \textbf{síncronos} es nuestra responsabilidad sondear periódicamente la aplicación para nuevos comandos. \\
+
+Para invocar un comando en la sección de ``Dispositivos`` hay un cuadro llamado \textit{Ejecución de comandos}. Aquí indicamos el nombre del tipo de comando y una retención máxima. La retención máxima para la entrega define el tiempo en el que el comando está disponible para su ejecución. Una vez rellenado estos campos podemos clickar en ``run``. Con esto hemos conseguido que si durante la próxima hora se llama a este comando, se ejecutará en el dispositivo.
+
+\paragraph{Ejecución con MQTT}  \hspace{0pt} \\
+
+Con este protocolo el proceso se simplifica. Simplemente tenemos que dejar ejecutando el siguiente código y desde nuestro framework indicamos el tipo de comando y acción sobre el dispositivo.
+}
