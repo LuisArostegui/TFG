@@ -118,21 +118,50 @@ Muchas empresas se apresuran a crear aplicaciones para el IoT y gastan enormes s
 
 \section{Seguridad}
 
-Se prevé que el Internet de las cosas crezca rápidamente debido a la proliferación de la tecnología de la comunicación, la disponibilidad de los dispositivos y los sistemas informáticos. Por lo tanto, la seguridad de IoT es un área de preocupación para proteger el hardware y las redes en el sistema del IoT. El objetivo principal de la seguridad de la IoT es preservar la privacidad, la confidencialidad, garantizar la seguridad de los usuarios, las infraestructuras, los datos y los dispositivos de la IoT, y garantizar la disponibilidad de los servicios ofrecidos por un ecosistema de IoT. Por lo tanto, la investigación sobre la seguridad del IoT ha cobrado recientemente un gran impulso con la ayuda de las herramientas de simulación, los modeladores y las plataformas de cálculo y análisis disponibles. En la actualidad, las técnicas y los métodos de seguridad que se han propuesto se basan esencialmente en los métodos de seguridad de red convencionales. Sin embargo, la aplicación de mecanismos de seguridad en un sistema IoT es más difícil que en una red tradicional, debido a la heterogeneidad de los dispositivos y protocolos, así como a la escala o el número de nodos del sistema. \cite{lin2017survey}-\cite{hassan2019current}.
+Durante las primeras décadas de su existencia, las redes informáticas eran utilizadas principalmente por los investigadores universitarios para enviar correos electrónicos y por los empleados de las empresas para compartir impresoras. En estas condiciones, la seguridad no recibía mucha atención. Pero ahora, cuando millones de ciudadanos de a pie utilizan las redes para realizar operaciones bancarias, comprar y presentar sus declaraciones de impuestos, y se han encontrado puntos débiles tras puntos débiles, la seguridad de las redes se ha convertido en un problema de proporciones masivas. \\ 
+
+La seguridad, trata de asegurar que los entrometidos no puedan leer, o peor aún, modificar secretamente los mensajes destinados a otros destinatarios. Se trata de que las personas intenten acceder a servicios remotos para los que no están autorizadas. La seguridad también se ocupa de los problemas de los mensajes legítimos que son capturados y reproducidos, y de las personas que más tarde intentan negar haber enviado ciertos mensajes. La mayoría de los problemas de seguridad son causados intencionadamente por personas malintencionadas que intentan obtener algún beneficio, llamar la atención o perjudicar a alguien. \\ \cite{Tanenbaum2011ComputerN5}
 
 \subsection{Características de seguridad en el IoT}
+
+Este trabajo al estar relacionado con el IoT nos centramos en analizar la seguridad relacionada con este. Podemos analizar distintos aspectos de la seguridad, como puede ser en la transmisión de datos, hardware, software, pero todos estos puntos tienen una serie de puntos en común:
 
 \begin{itemize}
     \item  \textbf{Confidencialidad}. La confidencialidad puede garantizar que los datos sólo estén disponibles para los usuarios autorizados durante todo el proceso, y que no puedan ser escuchados o interferidos por usuarios no autorizados. En IoT, la confidencialidad es un principio de seguridad importante, ya que un gran número de dispositivos de medición (RFID, sensores, etc.) pueden integrarse en IoT. Por lo tanto, es fundamental garantizar que los datos recogidos por un dispositivo de medición no revelen información segura a sus dispositivos vecinos. Para lograr una gran confidencialidad, deben mejorarse las técnicas, incluyendo mecanismos seguros de gestión de claves.
     \item  \textbf{Integridad}. La integridad puede garantizar que los datos no puedan ser manipulados por interferencias intencionadas o no intencionadas durante la entrega de datos en las redes de comunicación, proporcionando en última instancia los datos precisos para los usuarios autorizados. La integridad es importante para IoT, porque si las aplicaciones de IoT reciben datos falsificados o manipulados, se puede estimar un estado de funcionamiento erróneo y se pueden realizar comandos de retroalimentación equivocados, lo que podría interrumpir aún más el funcionamiento de las aplicaciones de IoT. Para lograr una integridad aceptable, deben desarrollarse y aplicarse mecanismos de integridad de datos seguros mejorados y aplicarlos.
-    \item \textbf{Disponibilidad}. La disponibilidad puede garantizar que los datos y los dispositivos estén disponibles para los usuarios y servicios autorizados siempre que se soliciten los datos y los dispositivos. En IoT, los servicios suelen solicitarse en tiempo real, y los servicios no pueden programarse y prestarse si los datos solicitados no pueden entregarse a tiempo. Por lo tanto, la disponibilidad es también un importante principio de seguridad. Una de las amenazas más graves para la disponibilidad es el ataque de denegación de servicio (DoS), y las técnicas mejoradas, protocolos de enrutamiento seguros y eficientes, para garantizar la disponibilidad en el IoT.
+    \item \textbf{Disponibilidad}. La disponibilidad puede garantizar que los datos y los dispositivos estén disponibles para los usuarios y servicios autorizados siempre que se soliciten los datos y los dispositivos. En IoT, los servicios suelen solicitarse en tiempo real, y los servicios no pueden programarse y prestarse si los datos solicitados no pueden entregarse a tiempo. Por lo tanto, la disponibilidad es también un importante principio de seguridad. Una de las amenazas más graves para la disponibilidad es el ataque de denegación de servicio (DoS), y las técnicas mejoradas, protocolos de enrutamiento seguros y eficientes, para garantizar la disponibilidad en el IoT. \cite{lin2017survey}
 
 \end{itemize}
 
 
 \subsection{Aspectos legales y éticos}
 
-%\cite{smith2012internet}
+La seguridad es un requisito importante en el diseño y desarrollo para un proyecto, por ello hay que considerar los aspectos normativos, en especial relacionados con la privacidad, ya que es esencial en el desarrollo de sistemas TIC`s. \\
+
+Se va a destacar la \textbf{Agencia Española de Protección de Datos}, que en 2014 realizaron el primer dictamen relacionado con el IoT. \\
+
+En el \textbf{Dictamen 8/2014} del Grupo de Trabajo del Artículo 29, ahora Comité Europeo de Protección de Datos, se define IoT como aquella infraestructura en la que múltiples sensores incorporados a dispositivos comunes y cotidianos registran, someten a tratamiento, almacenan y transfieren datos e interactúan con otros dispositivos o sistemas haciendo uso de sus capacidades de conexión en red. En muchos casos, dichos objetos están asociados a identificadores únicos y tratan datos personales. \\
+
+El Grupo de trabajo del artículo 29 decidió emitir este Dictamen por considerar que el IoT plantea
+diversos retos importantes relativos a la intimidad y la protección de los datos, algunos nuevos, otros
+más tradicionales, pero amplificados por el aumento exponencial del tratamiento de datos que conlleva
+la evolución de este fenómeno. La importancia de la aplicación del marco jurídico de protección de los
+datos de la UE y las correspondientes recomendaciones que se presentan más abajo se deben
+contemplar a la luz de estos retos. \cite{aepd-info} \\
+
+Uno de los puntos que se puede destacar es que para que los usuarios del Internet de las Cosas puedan permanecer siempre en control de sus datos deben saber claramente cómo y para qué se van a utilizar los mismos. Deben dar su consentimiento expreso tras recibir la información de forma clara y transparente. \\
+
+Relativo al proyecto, hay que tener en cuenta secciones como la de \textbf{Creadores de aplicaciones} que dice lo siguiente \cite{dictamen8-24}:
+
+\begin{itemize}
+    \item \textit{``Se deben elaborar avisos o advertencias para recordar frecuentemente a los usuarios que los sensores están recogiendo datos. Si el creador de la aplicación no tiene acceso directo al dispositivo, la aplicación debe enviar periódicamente al usuario una notificación para recordarle que sigue registrando datos. ``}
+    \item \textit{``Las aplicaciones deben facilitar el ejercicio del derecho del interesado al acceso, la modificación y la eliminación de la información personal recogida por los dispositivos de IO. ``}
+    \item \textit{``Los creadores de aplicaciones deben proporcionar herramientas para que los interesados exporten tanto los datos primarios como los agregados en un formato normalizado y fácil de utilizar. ``}
+    \item \textit{``Los creadores deben prestar una atención especial a los tipos de datos que se someten a tratamiento y a la posibilidad de deducir de ellos datos personales sensibles. ``}
+    \item \textit{``Los creadores de aplicaciones deben aplicar el principio de minimización de datos. Cuando los fines se puedan alcanzar mediante datos agregados, los creadores no deberán acceder a los datos primarios. De manera más general, los creadores deben seguir un enfoque de intimidad desde el diseño y reducir la cantidad de datos recogidos al mínimo necesario para la prestación del servicio. ``}
+\end{itemize}
+
+Como conclusión de este dictamen obtenemos que, los tratamientos basados en IoT precisan de modelos que incorporen los requisitos normativos, estándares y mecanismos de certificación para garantizar un nivel de protección de derechos y libertades de las personas. Pudiendo ser utilizados por las personas sin amplios conocimientos con la confianza de que no se vulnerará su privacidad. \cite{aepd-info}
 
 
 }
