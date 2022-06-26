@@ -32,7 +32,7 @@ Se puede gestionar el termostato de una de las siguientes maneras:
 
 \subsubsection{ID de Endpoint}
 
-El ID de endpoints se utiliza para identificar de forma única un endpoint dentro de una instancia. Un ID de endpoints suele ser un UUID generado automáticamente por el framework en el momento de crear un nuevo endpoint. No obstante, también se permiten los ID de endpoints definidos por el usuario. El ID de los endpoints no puede modificarse una vez creado.
+El ID de endpoints se utiliza para identificar de forma única un endpoint dentro de una instancia. Un ID de endpoints suele ser un UUID generado automáticamente por el framework en el momento de crear un nuevo endpoint. No obstante, también se permiten los ID de endpoints definidos por el usuario. El ID de los endpoints no puede modificarse una vez creado. \\
 
 Todos los datos de los endpoints, como los atributos de los metadatos, los puntos de datos de series temporales recopilados, los comandos, etc., están asociados a un ID de endpoint específico. Siempre que recupere o gestione datos relacionados con endpoints en Kaa, principalmente a través de la API REST, se verá los ID de endpoints.
 
@@ -206,4 +206,74 @@ Para invocar un comando en la sección de ``Dispositivos`` hay un cuadro llamado
 \paragraph{Ejecución con MQTT}  \hspace{0pt} \\
 
 Con este protocolo el proceso se simplifica. Simplemente tenemos que dejar ejecutando el siguiente código y desde nuestro framework indicamos el tipo de comando y acción sobre el dispositivo.
+
+\section{Explotación de vulnerabilidad}
+
+Una vez terminada nuestra aplicación vamos a empezar a explotar MQTT teniendo en cuenta el análisis realizado en \ref{exploit-analysis}. Vamos a proceder siguiendo las fases de un ataque.
+
+\subsection{Reconocimiento}
+
+Como todo pentest de IoT comienza con el paso de reconocimiento, empezaremos por escanear la red. Para ello vamos usar \textbf{nmap}.Vamos a iniciar nuestra aplicación para empezar a transmitir datos desde el dispositivo hasta el framework y en ese momento empezaremos a escanea la red. \\
+
+La orden para usar nmap:
+
+\begin{lstlisting}[language=bash]
+sudo nmap -sS -sV -v -p 1883,8883 -oA mqtt-scan <ip>
+\end{lstlisting}
+
+Con esta orden se escanearan en la ip indicada los puertos indicados (1883,8883) y se nos indicará si están abiertos o cerrados. \\
+
+\subsection{Análisis de vulnerabilidades}
+
+En este caso al ver ambos puertos abiertos, sobre todo nos vamos a centrar en el puerto 1883 ya que este puerto carece de encriptación. Por tanto, vamos a explotar ese puerto mediante un ataque de fuerza bruta para conseguir acceso a la aplicación y poder enviar datos.
+
+\subsection{Explotación de una vulnerabilidad}
+
+Para explotar MQTT vamos a hacer uso de \textbf{Metasploit} \footnote{Para su instalación se ha seguido la siguiente guia: https://www.stiw.org/msf-pi.html}. \\
+
+Se va a hacer uso del paquete \textbf{MQTT Authentication Scanner} \cite{use-metasploit-mqtt}. En concreto, se va a usar el módulo \textbf{auxiliary/scanner/mqtt/connect}. Este módulo intenta autenticarse en MQTT. \\
+
+Para hacer uso de la herramienta vamos a usar las siguientes órdenes:
+
+\begin{itemize}
+    \item Uso del paquete. \textbf{use auxiliary/scanner/mqtt/connect}
+    \item Insertar Hosts y puertos a explotar. \textbf{use RHOST} y \textbf{use RPORT}
+    \item Insertar ruta a ficheros que contienen usuario y contraseñas típicos. \textbf{set PASS\_FILE <path>} y \textbf{set USER\_FILE <path>}
+    \item Ejecutar la explotación e intento de inicio de sesión. \textbf{exploit}.
+\end{itemize}
+
+El resultado que obtenemos que se ha podido iniciar sesión sin autenticación. Esto se puede solucionar de varias maneras con nuestro framework. En concreto, podemos crear un usuario con su correspondiente contraseña. \\
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/Captura de pantalla 2022-06-13 180308.png}
+    \caption{Crear usuario para iniciar conexión}
+    \label{fig:figure11-imp}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/Captura de pantalla 2022-06-13 180337.png}
+    \caption{Identificador para el nuevo usuario}
+    \label{fig:figure12-imp}
+\end{figure}
+
+Se creará un usuario con un identificador. Una vez creado en nuestra aplicación hacemos uso de \textbf{paho-mqtt} para indicar que cuando se inicie la conexión se va a requerir de unas credenciales. Se indicará de la siguiente manera:
+
+
+\begin{lstlisting}[language=Python]
+client.username_pw_set("user1@ceb70d5b-8945-4991-bbaf-2022f54fc057", "1234")
+\end{lstlisting}
+
+En el capítulo 8 se analizará la seguridad de la creación de un usuario, ya que este se sigue haciendo sobre el puerto 1883. Se usará \textbf{tcpdump} en el momento de inicio de la conexión y se analizarán los paquetes. \\
+
+La orden a ejecutar es:
+
+\begin{lstlisting}[language=bash]
+sudo tcpdump port 1883 -w <nombre_fichero>.pcap
+\end{lstlisting}
+
+Se usará wireshark para mostrar el tráfico.
+
+
 }

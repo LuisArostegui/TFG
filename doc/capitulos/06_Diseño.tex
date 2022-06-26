@@ -3,9 +3,11 @@
 {\color{blue}
 
 
-Se van a mostrar las tecnologías usadas en el proyecto, así como las decisiones tomadas a la hora del desarrollo del software. En este proyecto, tenemos por un lado nuestra aplicación, la cual va a recoger todos los datos y por otro lado tenemos un dispositivo, que este es una Raspberry PI \cite{raspberry-specs}, prestada por mis tutores de proyecto. Para hacer la conexión entre aplicación y dispositivo se necesita hacer uso de un protocolo de mensajería, en este caso se opta por el uso de MQTT.
+Se van a mostrar las tecnologías usadas en el proyecto, así como las decisiones tomadas a la hora del desarrollo del software. En este proyecto, tenemos por un lado nuestra aplicación, la cual va a recoger todos los datos y por otro lado tenemos un dispositivo, que este es una Raspberry PI \cite{raspberry-specs}, prestada por mis tutores de proyecto. Para hacer la conexión entre aplicación y dispositivo se necesita hacer uso de un protocolo de mensajería, en este caso se opta por el uso de MQTT. \\
 
-\section{Tecnologías usadas}
+También se va a mostrar como se va a proceder para la explotación de la vulnerabilidad y cuestiones a tener en cuenta.
+
+\section{Tecnologías usadas en la creación de la aplicación}
 
 \subsection{Lenguaje de programación}
 
@@ -54,23 +56,25 @@ El led estará conectado a la Raspberry como se muestra en la figura \ref{fig:fi
     \label{fig:figure12}
 \end{figure}
 
-Por último, la clase \textbf{SignalListener} que se usa para poder para la ejecución de la comunicación. \\
+Por último, la clase \textbf{SignalListener} que se usa para poder parar la ejecución de la comunicación desde una E/S. \\
 
-\subsubsection{Bibliotecas usadas}
+\subsection{Bibliotecas usadas}
 
-\paragraph{subprocess} \hspace{0pt} \\
+\subsubsection{subprocess}
 
 Para obtener los dispositivos conectados a la Raspeberry se usa \textbf{subprocess}. El módulo de subprocesos permite generar nuevos procesos, conectarse a sus tuberías de entrada/salida/error y obtener sus códigos de retorno. \cite{subprocess}
 
-\paragraph{GPIO Zero} \hspace{0pt} \\
+\subsubsection{GPIO Zero}
 
 Una sencilla interfaz para dispositivos GPIO con Raspberry Pi, desarrollada y mantenida por Ben Nuttall y Dave Jones. Se usa para obtener la temperatura de la CPU y para encender/apagar el led de la Raspberry. \cite{gpiozero}
 
-\paragraph{decouple} \hspace{0pt} \\
+\subsubsection{decouple}
 
 Decouple ayuda a organizar la configuración para que puedas cambiar los parámetros sin tener que volver a desplegar la aplicación. En un fichero .env se almacena los datos sensibles para no mostrarlos al público y se cargan una vez antes de iniciar la comunicación. \cite{decouple}
 
-\paragraph{paho mqtt} \hspace{0pt} \\
+\subsubsection{paho mqtt}
 
 Como se ha mencionado ya, sirve para establecer la conexión mqtt. \cite{paho-mqtt}
+
+
 }

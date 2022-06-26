@@ -6,7 +6,7 @@ Para realizar las pruebas, he tenido la oportunidad de usar una Raspberry PI \ci
 
 \section{Conectar un cliente}
 
-Tal y como vimos en \ref{connect-dispositivo}, una vez ya hemos creado nuestro primer endpoint, podemos conectar un cliente y obtener y enviar algunos metadatos. Como se analizó \ref{eleccion-framework}, Kaa IoT es un framework que soporta varios protocolos donde nos encontramos con HTTP y MQTT \ref{protocolos}.
+Tal y como vimos en \ref{connect-dispositivo}, una vez ya hemos creado nuestro primer endpoint, podemos conectar un cliente y obtener y enviar algunos metadatos. Como se analizó \ref{eleccion-framework}, Kaa IoT es un framework que soporta varios protocolos donde nos encontramos con HTTP y MQTT \ref{protocolos}. \\
 
 Para hacer uso de los protocolos y completar la integración del cliente necesitaremos el nombre de la versión y el token del endpoint. En esta sección se va a mostrar como hacer uso de ambos protocolos, concretamente de las órdenes para poder ejecutar la conexión con nuestro dispositivo, en la sección de \textit{Pruebas} \ref{pruebas} se mostrarán los datos que obtenemos tras su ejecución.\\
 
@@ -111,7 +111,7 @@ La ejecución de este código produce un efecto similar que el visto con HTTP. E
 
 \subsection{Envio de datos mediante MQTT}
 
-Al igual que en la sección \ref{mqtt-connection} tenemos un código para hacer el envió de datos y la ejecución de comandos, para ello definimos dos endpoints, uno para encender un led y el otro para apagar un led.
+Al igual que en la sección \ref{mqtt-connection} tenemos un código para hacer el envió de datos y la ejecución de comandos, para ello definimos dos endpoints, uno para encender un led y el otro para apagar un led. \\
 
 
 El código es el siguiente:
@@ -217,7 +217,7 @@ class SignalListener:
 
 \end{lstlisting}
 
-Con este código se entra en un bucle donde se van haciendo llamadas al dispositivo y recogiendo información. La información que nos llega viene en formato JSON. Se usa la librería \textit{gpiozero} para encender/apagar el led y obtener la temperatura de la CPU. 
+Con este código se entra en un bucle donde se van haciendo llamadas al dispositivo y recogiendo información. La información que nos llega viene en formato JSON. Se usa la librería \textit{gpiozero} para encender/apagar el led y obtener la temperatura de la CPU. \\
 
 También se ha creado un fichero para cargar la configuración necesaria (endpoint ID, host, puerto) y ejecutar el programa.
 
@@ -301,7 +301,7 @@ if __name__ == '__main__':
 
 \end{lstlisting}
 
-Se usa \textit{decouple} para evitar mostrar los datos de configuración de la aplicación, usando un fichero \textit{.env}.
+Se usa \textit{decouple} para evitar mostrar los datos de configuración de la aplicación, usando un fichero \textit{.env}. \\
 
 Se muestra a continuación pruebas de la ejecución del código.
 
@@ -348,6 +348,47 @@ Se muestra a continuación pruebas de la ejecución del código.
     \label{fig:figure18}
 \end{figure}
 
+\newpage
 
+\section{Escanear red}
+
+Se muestra el escaneo de la red con \textbf{nmap}. \ref{fig:figure19-prueba}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/2022-06-20-191838_1920x1080_scrot.png}
+    \caption{Escaneo de red con nmap}
+    \label{fig:figure19-prueba}
+\end{figure}
+
+
+\section{Explotación de una vulnerabilidad}
+
+Se muestra el uso de Metasploit para iniciar sesión en la aplicación y poder enviar datos a la aplicación. \ref{fig:figure22-prueba} - \ref{fig:figure22.2-prueba} \\
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/2022-06-14-180947_1920x1080_scrot.png}
+    \caption{Insertar PASS\_FILE y USER\_FILE}
+    \label{fig:figure22-prueba}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/2022-06-14-183011_1920x1080_scrot.png}
+    \caption{Insertar host y puerto para ejecución. Resultado de la explotación}
+    \label{fig:figure22.2-prueba}
+\end{figure}
+
+Para analizar la seguridad de crear un usuario para iniciar la conexión entre dispositivo y aplicación se ha escaneado el tráfico en el momento del inicio de sesión. \\
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/Captura de pantalla 2022-06-26 190942.png}
+    \caption{Captura de tráfico con tcpdump. Inicio de sesión}
+    \label{fig:figure23-prueba}
+\end{figure}
+
+Si observamos los datos enviados al estar en el puerto 1883, todos los datos se envían sin encriptación y por tanto podemos leer las credenciales para el inicio de sesión. \ref{fig:figure23-prueba}
 
 }
