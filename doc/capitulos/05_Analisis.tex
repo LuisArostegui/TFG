@@ -160,4 +160,74 @@ Como framework para desarrollar la aplicación se ha optado por trabajar con \te
 
 Otra elección interesante podría haber sido \textbf{macchina.io} no cumple con el requisito de dificultad de uso. En comparación con \textbf{Kaa IoT}, macchina.io no dispone de tanta documentación como el framework seleccionado.
 
+
+\section{Explotación de vulnerabilidad} \label{exploit-analysis}
+
+Para empezar, ya que vamos a trabajar con MQTT vamos a analizar este protocolo de comunicación para posteriormente atacarlo para así explotar una vulnerabilidad de nuestra aplicación. Una vez visto como funciona MQTT, veremos las etapas de un ataque y las herramientas que necesitamos en cada una de las etapas.
+
+\subsection{MQTT en profundidad}
+
+Ya se habló de este protocolo en \ref{protocolos}. Cada protocolo IoT requiere diferentes vectores de ataque. MQTT no es, por defecto, seguro, y muchos despliegues de MQTT parecen haberse saltado la letra pequeña cuando se trata de usar MQTT de forma segura. Así que vamos a explotarlo. \\
+
+La definición oficial de MQTT viene de \textbf{mqtt.org} \cite{mqtt}: \\
+
+\textit{``MQTT son las siglas de MQ Telemetry Transport. Se trata de un protocolo de publicación/suscripción, extremadamente sencillo y ligero, diseñado para dispositivos limitados y redes de bajo ancho de banda, alta latencia o poco fiables. Los principios de diseño consisten en minimizar el ancho de banda de la red y los requisitos de recursos de los dispositivos, al tiempo que se intenta garantizar la fiabilidad y cierto grado de seguridad en la entrega. Estos principios también hacen que el protocolo sea ideal para el emergente mundo de los dispositivos conectados "máquina a máquina" (M2M) o "Internet de las cosas", y para aplicaciones móviles en las que el ancho de banda y la energía de la batería son muy importantes. ``} \\
+
+
+MQTT es un protocolo de publicación/suscripción que permite la comunicación de uno a muchos a través de un broker MQTT. Poder comunicarse con todos los dispositivos conectados al broker facilita los ataques activos a gran escala. Un atacante que sea capaz de espiar y saber qué tipo de mensajes se están enviando a través del broker puede utilizar posteriormente esta información para atacar simultáneamente a todos los dispositivos conectados a él. \\
+
+Tiene una característica llamada suscripción con comodines, y muchos usuarios de MQTT pasan por alto las implicaciones de esto en la seguridad. Un despliegue por defecto de MQTT sin autorización permite a cualquier cliente conectado suscribirse a todos los mensajes, y un atacante puede utilizar esta información para conocer y registrar todos los mensajes intercambiados en una solución IoT. Por esto, es bastante factible realizar un ataque de escalado de privilegios. \cite{mqtt-security-1} \\
+
+
+\subsection{Características de MQTT}
+
+\begin{itemize}
+    \item Patrón de publicación y suscripción.
+    \item Formatos de paquetes simples: cargas útiles binarias.
+    \item Version actual: 3.1.1 (Dec/2015).
+    \item El protocolo se ejecuta a través de TCP.
+    \item Puerto por defecto: 1883/TCP (no encriptado).
+\end{itemize}
+
+
+El modelo de \textbf{publicación/suscripción} se compone de:
+
+\begin{itemize}
+    \item \textbf{Editor,} publica un mensaje en uno (o varios) temas del broker.
+    \item \textbf{Broker,} dirige todos los mensajes de los editores a los suscriptores.
+    \item \textbf{Tema,} consta de uno o varios niveles separados por una barra diagonal (por ejemplo, /smartshouse/livingroom/temperature).
+\end{itemize}
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/sub-pattern-mqtt.png}
+    \caption{Modelo publicación/suscripción \cite{disenio-mqtt}}
+    \label{fig:figure13-mqtt-analysis}
+\end{figure}
+
+\subsection{Seguridad en MQTT}
+
+La nota oficial de MQTT acerca de la seguridad de este (\textbf{mqtt.org}) \cite{mqtt}: \\
+
+\textit{``Puedes pasar un nombre de usuario y una contraseña con un paquete MQTT en la V3.1 del protocolo. La encriptación a través de la red puede ser manejada con SSL, independientemente del protocolo MQTT en sí mismo (vale la pena señalar que SSL no es el más ligero de los protocolos, y añade una sobrecarga de red significativa). Se puede añadir seguridad adicional mediante una aplicación que cifre los datos que envía y recibe, pero esto no es algo integrado en el protocolo, con el fin de mantenerlo simple y ligero.``}\\
+
+Aquí tenemos dos puntos a considerar:
+
+\begin{enumerate}
+    \item La autenticación es totalmente opcional
+    \item Si se realiza la autenticación, el cifrado no se utiliza por defecto (las credenciales se envían en texto claro). Los ataques MITM aún pueden ser ejecutados para robar contraseñas.
+\end{enumerate}
+
+\subsection{Fases de un ataque}
+
+Para poder contrarrestar un ataque debemos conocer las fases de este, por esto vamos a hacer un \textbf{test de intrusión} o \textbf{Pentest}. Esto es una prueba de seguridad ofensiva que simula un ataque real en un entorno controlado. El objetivo principal de este tipo de pruebas es identificar las posibles brechas en la seguridad de un sistema de manera que, al simular el comportamiento de los atacantes reales, podamos descubrir vulnerabilidades y agujeros de seguridad que necesiten ser corregidos para que no sean explotados por parte de atacantes reales. \cite{pentesting} \\
+
+Las fases y tecnologías dentro de cada fase que nos encontramos son:
+
+\begin{enumerate}
+    \item \textbf{Reconocimiento}, se recolecta información del sistema de forma activa o pasiva. En este caso se van a usar herramientas como nmap o netstat para recopilar información de dominios, IPs, puertos y servicios.
+    \item \textbf{Análisis de vulnerabilidades}, aquí se analizará la información recopilada de la fase de reconocimiento. Se puede investigar por internet posibles vulnerabilidad, por ello se puede mencionar a \textbf{CVE} \footnote{https://cve.report/vendor/mqtt}, para conocer posibles vulnerabilidad.
+    \item \textbf{Explotación}, en esta fase se realizan las acciones necesarias para poder comprometer al sistema, los usuarios o la información que se maneja. Para este proyecto se usará \textbf{Metasploit}, es una herramienta que proporciona información acerca de vulnerabilidades de seguridad y ayuda en test de penetración.
+\end{enumerate}
+
 }
