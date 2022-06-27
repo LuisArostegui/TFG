@@ -1,1 +1,30 @@
 \chapter{Conclusiones y trabajos futuros}
+
+{\color{blue}
+
+\section{Conclusiones}
+
+Llegados a este punto del desarrollo del proyecto, se procede a comentar las conclusiones teniendo en cuenta cada objetivo especificado. \ref{sec:objetivos}
+
+\begin{itemize}
+    \item Para empezar se tenía que estudiar distintos frameworks para IoT y analizarlos. Debido a que se carecían de conocimientos relacionados con esta temática, se optó por la opción de empezar a estudiar los fundamentos y conocimientos existentes entorno a la temática elegida, tomando como referencia fuentes variadas, válidas y fiables. Este estudio permitió poder seleccionar un framework siguiendo unos requisitos que se ajustasen al proyecto para simplificar el desarrollo de los siguientes objetivos.
+    \item En esta misma fase se estudiaron las distintas arquitecturas que existen dentro del IoT y las tecnologías asociadas a cada una de estas, punto clave para empezar a tener en cuenta posibles vulnerabilidades que se pueden explotar en la ultima fase del proyecto y de esta manera seleccionar un framework con que poder crear una aplicación basándonos en una posible vulnerabilidad de algunas de las tecnologías que podríamos llegar a usar.
+    \item En la sección de análisis, concretamente para la búsqueda de un framework, también fue parte de estudio la diferencia entre middleware y framework. En varios artículos no hay una diferencia clara entre ambas, es un concepto algo ambiguo, que incluso aquí se puede añadir el concepto de plataforma. Por esto, se deja clara una sección de middleware y framework, y a que nos referimos cuando hablamos de cada una de ellas.
+    \item De middleware y framework, podemos pasar a tecnologías y protocolos, otra sección a la que se le dedicó parte del estudio, estos conceptos también son algo ambiguos y de todos los libros y artículos consultados, no se especifica como referirnos a cada uno, por esto se indica en el proyecto a que nos referimos cuando hablamos de tecnologías. Estas ambigüedades nos llevan a darnos cuenta de que el paradigma IoT esta madurando y que hay secciones que se tienen que terminar de especificar y estandarizar.
+    \item Respecto al segundo objetivo, se seleccionó un framework tomando como referencia una serie de requisitos. Tras el desarrollo de la aplicación con este framework se obtiene como conclusiones, que todo aquello relativo al IoT al ser un mundo que se esta dando a conocer y es reciente poco a poco los frameworks se están haciendo más potentes, eficientes y seguros pero como contra esto implica un mayor precio por su uso. Siguen existiendo framework que se pueden usar sin necesidad de realizar ningún pago pero estos están desapareciendo poco a poco porque las empresas ven una oportunidad de negocio única.
+    \item Para el objetivo de explotación de una vulnerabilidad, en un principio se pensaba que podría ser el objetivo al que dedicar más tiempo, sin embargo, debido a que se escogió MQTT como tecnología a la que explotar no fue muy complicado encontrar vulnerabilidades en este. Es una tecnología muy potente para la transferencia de mensajes, sin embargo, carece de seguridad hoy día y le queda un largo proceso de mejoría en este apartado y más teniendo en cuenta la cantidad de herramientas que existen para explotar una vulnerabilidad y la cantidad de atancantes que hay en el mundo.
+    \item Una parte que engloba a todos los objetivos, es la planificación, este punto siempre puede llegar a generar falsas expectativas con los plazos que fijan pero en este caso, con la metodología que se optó por usar, se ha podido seguir el proyecto de una manera bastante fiable, habiendo pocos días de diferencia entre la fecha inicialmente fijada y la fecha de finalización del objetivo. Usar tecnologías como las que se mencionaron han ayudado a medir el tiempo que se le dedicó a cada tarea sin extenderse en una u otra más de lo debido, distribuyendo de manera equitativa el tiempo en cada una de ellas.
+\end{itemize}
+
+\section{Vías futuras}
+
+Conforme se ha ido avanzando con el trabajo se han encontrado varios conceptos algo ambiguos que han requerido de una especificación para hacer referencia a ellos. Por tanto, este trabajo se puede seguir ampliando y algunas de las ideas son las siguientes:
+
+\begin{itemize}
+    \item Uno de los puntos principales que requieren de un estudio más profundo es la parte de tecnologías y protocolos, como ya se ha mencionado, es un apartado que no está estandarizado y es confuso leer entre libros y artículos como se refieren en un lugar a MQTT como protocolo y en otro lugar como tecnología, por esto reorganizar la idea de estos conceptos sería ideal para un futuro.
+    \item Algo similar pasa con el concepto de framework, middleware y plataforma, no esta estandarizado, definir de una manera clara cada uno de estos conceptos sería clave para el futuro desarrollo de nuevas aplicaciones.
+    \item Respecto a la aplicación, se puede seguir desarrollando para mostrar estadísticas más detalladas, una mayor seguridad en esta. Pedir un certificado SSL para usar el puerto 8883 y tener una conexión cifrada y así tener un sistema de autenticación más robusto que el actual. También se puede desarrollar un sistema de gestión de alertas, si en un momento dado la temperatura de nuestro dispositivo supera X valor, se puede mandar un correo y ejecutar un comando para apagar el dispositivo.
+    \item Para la parte de explotación de vulnerabilidades, aquí se puede seguir investigando más vulnerabilidades tanto de MQTT como a otro nivel, como puede ser el hardware o software. Se optó por explotar una vulnerabilidad conocida pero para un futuro uso de la aplicación el uso de varios usuarios y dispositivos se pueden encontrar otros problemas que vulneren la aplicación.
+\end{itemize}
+
+}
