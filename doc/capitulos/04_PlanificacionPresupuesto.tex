@@ -31,7 +31,7 @@ Con esta planificación se conseguirá una mayor claridad en las tareas a realiz
 
 De los 3 meses y medios a que se van a dedicar al proyecto, en todos ellos se va a desarrollar las etapas indicadas anteriormente. Se muestra la fecha de inicio y de fin de cada etapa.
 
-\renewcommand{\arraystretch}{1.5}\label{time-section}
+\renewcommand{\arraystretch}{1.5}\label{presupuesto-section}
 \begin{table}[H]
 	\centering
 	\label{tabla-temporal}
@@ -105,5 +105,85 @@ Esta herramienta nos permite seguir el tiempo que estamos trabajando. Cada vez q
 
 \section{Planificación a posteriori}
 
+Una vez terminado el proyecto nos apoyamos en las distintas herramientas que usamos en la planificación a priori para ver el resultado final. \\
+
+Usando la herramienta de ``Insights`` de Github obtenemos los siguientes resultados:
+
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/commits.png}
+    \caption{Commits realizados por fecha}
+    \label{fig:figure4-plan}
+\end{figure}
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/canvas.png}
+    \caption{Ramas creadas y forks. Primera parte}
+    \label{fig:figure5-plan}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/canvas2.png}
+    \caption{Ramas creadas y forks. Segunda parte}
+    \label{fig:figure6-plan}
+\end{figure}
+
+Se empezó a trabajar en Marzo, tal y como se indicó en la planificación pero la finalización del primer objetivo se retrasó hasta el 24 de Abril, pero esto se debe a que se realizó un estudio del paradigma IoT y se fue implementando antes la introducción y sección de estado del arte para hacer un trabajo más completo en el primer objetivo. El desarrollo terminó el 5 de Junio y la explotación de la vulnerabilidad y toda su documentación correspondiente el 26 de Junio. En total se ha retrasado 4 días más de lo previsto. \\
+
+\newpage
+
+Por parte de Trello, nos encontramos que conforme se iba avanzando con el proyecto se han creado tarjetas que se correspondían con Milestones o con issues, el resultado es el siguiente:
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/trello.png}
+    \caption{Tarjetas creadas en el proyecto en Trello}
+    \label{fig:figure7-plan}
+\end{figure}
+
+\newpage
+
+Y en clockify este es el seguimiento del tiempo dedicado a cada tarea (correspondiente a la tarjeta de Trello):
+
+
+\begin{figure}[hb!]
+    \centering
+    \includegraphics[width=\linewidth]{imagenes/clockify.png}
+    \caption{Tiempo dedicado. Clockify.}
+    \label{fig:figure8-plan}
+\end{figure}
+
+
+
 
 \chapter{Presupuesto}
+
+En una situación donde estemos contratados por una entidad que requiera de nuestros servicios para la auditoría de seguridad de dispositivos IoT, que requiera de la investigación y análisis del paradigma IoT. Teniendo en cuenta que al ser un ingeniero informático sin experiencia laboral, trabajando 5 horas al día, durante 5 días a la semana, un total de 300 horas en 3 meses. Para calcular el precio de la mano de obra, se tiene en cuenta lo que suele cobrar un ingeniero informático sin experiencia, unos 22 mil euros al año a jornada completa, esto se ve reflejado en 6.12€ a la hora, lo que hace un total de 1836€. \\
+
+Una vez vista la mano de obra se ve el coste de los materiales.
+
+\renewcommand{\arraystretch}{1.5}\label{time-section}
+\begin{table}[H]
+	\centering
+	\label{tabla-presupuesto}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{@{}ccc@{}}
+		\toprule
+		\rowcolor[HTML]{ECF4FF} 
+		\textbf{Descripción}                                                                                                                  & \textbf{Importe por unidad} & \textbf{Total} \\ \midrule
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}Mano de obra\end{tabular}} & 1836€                & 1836€                     \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{ECF4FF}\textbf{Ordenador de sobremesa para desarrollo}                                                                                & 1600€                 & 1600€                    \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{ECF4FF}\textbf{Raspberry PI}                                                                                & 40€                 & 40€                    \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\begin{tabular}[c]{@{}c@{}}SanDisk Extreme Tarjeta de Memoria microSD de 64 GB\end{tabular}}         & 20€                & 20€                    \\
+		\rowcolor[HTML]{EFEFEF} 
+		\cellcolor[HTML]{ECF4FF}\textbf{Instalación y mantenimiento de los componentes y software}                                                                                   & 100€                & 100€                     \\
+		\cellcolor[HTML]{ECF4FF}\textbf{\textbf{Total completo}}                                                                                   & \textbf{3596€}               &                      \\\bottomrule
+	\end{tabular}}
+	\caption{Presupuesto total del proyecto.}
+\end{table}
+
