@@ -17,7 +17,6 @@ ENDPOINT_TOKEN = config('ENDPOINT_TOKEN', cast=str)
 
 
 def main():
-    # Iniciar la conexion con el servidor
     print(
         f'Connecting to Kaa server at {KPC_HOST}:{KPC_PORT} using application version {APPLICATION_VERSION} and endpoint token {ENDPOINT_TOKEN}')
 
@@ -28,18 +27,15 @@ def main():
 
     metadata_client = MetadataClient(client, APPLICATION_VERSION, ENDPOINT_TOKEN)
 
-    # Obtener los atributos de los metadatos del endpoint actual
     retrieved_metadata = metadata_client.get_metadata()
     print(f'Retrieved metadata from server: {retrieved_metadata}')
 
-    # Actualizar parcialmente los metadatos del endpoint
     metadata_to_report = metadata_client.set_metadata()
     metadata_client.patch_metadata_unconfirmed(metadata_to_report)
 
     time.sleep(5)
     client.disconnect()
 
-    # Initiate server connection
     client = mqtt.Client(client_id=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6)))
 
     data_collection_client = KaaClient(client, APPLICATION_VERSION, ENDPOINT_TOKEN, KPC_HOST, KPC_PORT)
@@ -47,10 +43,8 @@ def main():
 
     client.on_message = data_collection_client.on_message
 
-    # Start the loop
     client.loop_start()
 
-    # Send data samples in loop
     listener = SignalListener()
     while listener.keepRunning:
 
