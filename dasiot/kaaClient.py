@@ -61,10 +61,6 @@ class KaaClient:
         command_result = self.compose_command_result_payload(message)
         print(f'command result {command_result}')
         client.publish(topic=self.command_turn_on_result_topik, payload=command_result)
-        # With below approach we don't receive the command confirmation on the server side.
-        # self.client.disconnect()
-        # time.sleep(5)  # Simulate the reboot
-        # self.connect_to_server()
 
     def handle_turn_off_command(self, client, userdata, message):
         print(f'<--- Received "turn on" command on topic {message.topic} \nTurning off...')
